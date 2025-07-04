@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { WalletConnect } from "../components/wallet-connect";
+import { ConnectButton } from "../components/ConnectButton";
 
 export default function Home() {
 	return (
@@ -13,7 +13,9 @@ export default function Home() {
 					height={38}
 					priority
 				/>
-				<WalletConnect />
+				<div className="flex justify-center w-full">
+					<ConnectButton />
+				</div>
 				<ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
 					<li className="mb-2 tracking-[-.01em]">
 						Get started by editing{" "}
