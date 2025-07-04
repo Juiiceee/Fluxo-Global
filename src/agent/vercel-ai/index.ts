@@ -1,10 +1,10 @@
 import { type CoreTool, tool } from "ai";
-import type { SolanaAgentKit } from "../agent";
+import type { EvmAgentKit } from "../core";
 import type { Action } from "../types/action";
 import { executeAction } from "../utils/actionExecutor";
 
-export function createSolanaTools(
-  solanaAgentKit: SolanaAgentKit,
+export function createEvmTools(
+  evmAgentKit: EvmAgentKit,
   actions: Action[],
 ): Record<string, CoreTool> {
   const tools: Record<string, CoreTool> = {};
@@ -37,7 +37,7 @@ export function createSolanaTools(
       `.slice(0, 1023),
       parameters: action.schema,
       execute: async (params: Record<string, unknown>) =>
-        await executeAction(action, solanaAgentKit, params),
+        await executeAction(action, evmAgentKit, params),
     });
   }
 

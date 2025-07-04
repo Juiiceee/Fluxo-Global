@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { SolanaAgentKit } from "../agent";
+import { EvmAgentKit } from "../core";
 
 /**
  * Example of an action with input and output
@@ -14,7 +14,7 @@ export interface ActionExample {
  * Handler function type for executing the action
  */
 export type Handler = (
-  agent: SolanaAgentKit,
+  agent: EvmAgentKit,
   input: Record<string, any>,
 ) => Promise<Record<string, any>>;
 

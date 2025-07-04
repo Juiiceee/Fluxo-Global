@@ -1,10 +1,10 @@
 import { tool } from "@langchain/core/tools";
-import { SolanaAgentKit } from "../agent";
+import { EvmAgentKit } from "../core";
 import { Action } from "../types";
 import { transformToZodObject } from "../utils/zod";
 
 export function createLangchainTools(
-  solanaAgentKit: SolanaAgentKit,
+  evmAgentKit: EvmAgentKit,
   actions: Action[],
 ) {
   if (actions.length > 128) {
@@ -16,7 +16,7 @@ export function createLangchainTools(
   const tools = actions.slice(0, 127).map((action) => {
     const toolInstance = tool(
       async (inputs) =>
-        JSON.stringify(await action.handler(solanaAgentKit, inputs)),
+        JSON.stringify(await action.handler(evmAgentKit, inputs)),
       {
         name: action.name,
         description: `

@@ -1,6 +1,4 @@
-import { Connection } from "@solana/web3.js";
 import type { Action, Config, Plugin } from "../types";
-import { BaseWallet } from "../types/wallet";
 
 /**
  * Defines a type that merges all plugin methods into the `methods` object
@@ -8,7 +6,7 @@ import { BaseWallet } from "../types/wallet";
 type PluginMethods<T> = T extends Plugin ? T["methods"] : Record<string, never>;
 
 /**
- * Main class for interacting with Solana blockchain.
+ * Main class for interacting with blockchain.
  *
  * @example
  * // Define a plugin
@@ -24,8 +22,8 @@ type PluginMethods<T> = T extends Plugin ? T["methods"] : Record<string, never>;
  * };
  *
  * @example
- * // Create SolanaAgentKit instance
- * const agent = new SolanaAgentKit({
+ * // Create EvmAgentKit instance
+ * const agent = new EvmAgentKit({
  *  signTransaction: async (tx) => {},
  *  signAllTransactions: async (txs) => {},
  *  sendTransaction: async (tx) => {},
@@ -40,17 +38,17 @@ type PluginMethods<T> = T extends Plugin ? T["methods"] : Record<string, never>;
  * // Use plugin method
  * agentWithPlugins.methods.transferToken("SomePublicKey", 100);
  */
-export class SolanaAgentKit<TPlugins = Record<string, never>> {
-  public connection: Connection;
+export class EvmAgentKit<TPlugins = Record<string, never>> {
+  public connection: any;
   public config: Config;
-  public wallet: BaseWallet;
+  public wallet: any;
   private plugins: Map<string, Plugin> = new Map();
 
   public methods: TPlugins = {} as TPlugins;
   public actions: Action[] = [];
 
-  constructor(wallet: BaseWallet, rpc_url: string, config: Config) {
-    this.connection = new Connection(rpc_url);
+  constructor(wallet: any, rpc_url: string, config: Config) {
+    this.connection = 2;
     this.wallet = wallet;
     this.config = config;
   }
@@ -60,11 +58,11 @@ export class SolanaAgentKit<TPlugins = Record<string, never>> {
    */
   use<P extends Plugin>(
     plugin: P,
-  ): SolanaAgentKit<TPlugins & PluginMethods<P>> {
+  ): EvmAgentKit<TPlugins & PluginMethods<P>> {
     if (this.plugins.has(plugin.name)) {
-      return this as SolanaAgentKit<TPlugins & PluginMethods<P>>;
+      return this as EvmAgentKit<TPlugins & PluginMethods<P>>;
     }
-    plugin.initialize(this as SolanaAgentKit);
+    plugin.initialize(this as EvmAgentKit);
 
     // Register plugin methods inside `methods`
     for (const [methodName, method] of Object.entries(plugin.methods)) {
@@ -80,6 +78,6 @@ export class SolanaAgentKit<TPlugins = Record<string, never>> {
     }
 
     this.plugins.set(plugin.name, plugin);
-    return this as SolanaAgentKit<TPlugins & PluginMethods<P>>;
+    return this as EvmAgentKit<TPlugins & PluginMethods<P>>;
   }
 }

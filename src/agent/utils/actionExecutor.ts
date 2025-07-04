@@ -1,4 +1,4 @@
-import type { SolanaAgentKit } from "../agent";
+import type { EvmAgentKit } from "../core";
 import type { Action } from "../types";
 
 /**
@@ -6,7 +6,7 @@ import type { Action } from "../types";
  */
 export async function executeAction(
   action: Action,
-  agent: SolanaAgentKit,
+  agent: EvmAgentKit,
   input: Record<string, any>,
 ): Promise<Record<string, any>> {
   try {
