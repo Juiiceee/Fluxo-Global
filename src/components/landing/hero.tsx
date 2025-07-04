@@ -4,7 +4,7 @@ import { Badge } from "../ui/badge";
 import Link from "next/link";
 import { scrollToSection } from "../utils";
 
-export default function First() {
+export default function Hero() {
 	return (
 		<div className="container max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center">
 			{/* Status Badge */}

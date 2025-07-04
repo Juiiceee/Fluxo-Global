@@ -1,10 +1,7 @@
 "use client";
 
 import { Suspense, useEffect, useState } from "react";
-import Footer from "@/components/landing/footer";
-import Header from "@/components/landing/header";
-import First from "@/components/landing/first";
-import Action from "@/components/landing/action";
+import Landing from "@/components/landing/landing";
 
 export default function LandingPage() {
 	return (
@@ -42,27 +39,5 @@ function LandingPageContent() {
 		return null;
 	}
 
-	return (
-		<div className="flex flex-col min-h-screen bg-white">
-			<section id="section0">
-				<Header />
-			</section>
-
-			<main className="flex-1">
-				<section className="relative py-20 md:py-32 lg:py-40 bg-white" id="section1">
-					<First />
-				</section>
-
-				{/* Final CTA */}
-				<section
-					className="py-28 md:py-40 text-center bg-gradient-to-b from-white to-gray-50"
-					id="section5"
-				>
-					<Action />
-				</section>
-			</main>
-			{/* Footer */}
-			<Footer />
-		</div>
-	);
+	return <Landing />;
 }
