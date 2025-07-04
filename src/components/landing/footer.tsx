@@ -8,13 +8,7 @@ export default function Footer() {
 			<div className="container max-w-6xl mx-auto px-4">
 				<div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-6">
 					<div className="flex items-center space-x-2">
-						<Image
-							src="/whiteFluxo.png"
-							alt="Fluxo"
-							width={50}
-							height={50}
-							className="w-12 h-12"
-						/>
+						<Image src="/whiteFluxo.png" alt="Fluxo" width={50} height={50} className="w-12 h-12" />
 						<span className="text-muted-foreground text-black">Fluxo © 2025</span>
 					</div>
 
