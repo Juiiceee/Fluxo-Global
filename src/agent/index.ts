@@ -1,4 +1,4 @@
-import { SolanaAgentKit } from "./agent";
+import { SolanaAgentKit } from "./core";
 import { createLangchainTools } from "./langchain";
 import { createSolanaTools as createVercelAITools } from "./vercel-ai";
 
