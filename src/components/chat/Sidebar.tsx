@@ -13,18 +13,18 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ className, isOpen, onToggle }) => {
 	const recentChats = [
-		{ id: "1", title: "React Best Practices", time: "2 hours ago" },
-		{ id: "2", title: "API Integration Help", time: "1 day ago" },
-		{ id: "3", title: "UI Design Discussion", time: "2 days ago" },
-		{ id: "4", title: "Database Optimization", time: "3 days ago" },
-		{ id: "5", title: "Next.js Performance", time: "4 days ago" },
-		{ id: "6", title: "TypeScript Configuration", time: "5 days ago" },
-		{ id: "7", title: "CSS Grid Layout", time: "1 week ago" },
-		{ id: "8", title: "Authentication Setup", time: "1 week ago" },
-		{ id: "9", title: "State Management", time: "2 weeks ago" },
-		{ id: "10", title: "Component Architecture", time: "2 weeks ago" },
-		{ id: "11", title: "Testing Strategies", time: "3 weeks ago" },
-		{ id: "12", title: "Deployment Guide", time: "3 weeks ago" },
+		{ id: "1", title: "Swap 0.02 ETH to USDC", time: "2 hours ago" },
+		{ id: "2", title: "Bridge 2 ETH to SOL", time: "1 day ago" },
+		{ id: "3", title: "How much do I have?", time: "2 days ago" },
+		{ id: "4", title: "Transfer 50 USDC to 0x123...", time: "3 days ago" },
+		{ id: "5", title: "What's my ETH balance?", time: "4 days ago" },
+		{ id: "6", title: "Swap 100 USDC to DAI", time: "5 days ago" },
+		{ id: "7", title: "Bridge 1 ETH to Polygon", time: "1 week ago" },
+		{ id: "8", title: "Show me my portfolio", time: "1 week ago" },
+		{ id: "9", title: "Swap 0.5 ETH to WBTC", time: "2 weeks ago" },
+		{ id: "10", title: "Bridge 5 SOL to Ethereum", time: "2 weeks ago" },
+		{ id: "11", title: "Transfer 10 USDT to my wallet", time: "3 weeks ago" },
+		{ id: "12", title: "Check gas fees for swap", time: "3 weeks ago" },
 	];
 
 	return (
