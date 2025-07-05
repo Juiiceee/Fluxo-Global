@@ -38,12 +38,12 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, className }) => 
 								<Image src="/you.png" alt="Fluxo" width={20} height={20} className="rounded-sm" />
 							</div>
 						) : (
-							<div className="w-6 h-6 flex items-center justify-center">
+							<div className="size-8 flex items-center justify-center">
 								<Image
-									src="/assistant.png"
+									src="/borderFluxo.png"
 									alt="Fluxo"
-									width={20}
-									height={20}
+									width={30}
+									height={30}
 									className="rounded-sm"
 								/>
 							</div>

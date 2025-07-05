@@ -65,7 +65,7 @@ export default function Hero() {
 					onClick={() => scrollToSection("section5")}
 					variant="ghost"
 					size="lg"
-					className="text-gray-400 hover:text-white transition-colors duration-300"
+					className="text-black hover:text-white transition-colors duration-300"
 				>
 					<ChevronDown className="animate-bounce" size={24} />
 				</Button>

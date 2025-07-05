@@ -2,6 +2,9 @@ import Action from "./action";
 import Footer from "./footer";
 import Header from "./header";
 import Hero from "./hero";
+import BusinessProtocolSection from "./BusinessProtocolSection";
+import Meet from "./meet";
+import Explication from "./explication";
 
 export default function Landing() {
 	return (
@@ -16,6 +19,19 @@ export default function Landing() {
 					id="section1"
 				>
 					<Hero />
+				</section>
+				{/* AI Agent Preview Section */}
+				<section className="bg-white" id="section2">
+					<Meet />
+				</section>
+
+				{/* Setup Section */}
+				<section className="bg-white py-24 md:py-32">
+					<Explication />
+				</section>
+
+				<section className="py-24 bg-white md:py-32">
+					<BusinessProtocolSection />
 				</section>
 
 				{/* Final CTA */}

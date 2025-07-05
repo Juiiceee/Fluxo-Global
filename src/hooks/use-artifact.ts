@@ -55,7 +55,7 @@ export function useArtifactSelector<Selected>(selector: Selector<Selected>) {
 
 export function useArtifact() {
 	const queryClient = useQueryClient();
-	
+
 	const { data: localArtifact } = useQuery({
 		queryKey: ["artifact"],
 		queryFn: () => initialArtifactData,

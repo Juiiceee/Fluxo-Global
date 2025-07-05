@@ -71,7 +71,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className, isOpen, onToggle }) => {
 
 			{/* User Profile */}
 			<div className="p-4 border-t border-gray-200/50 flex-shrink-0">
-				<div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-100 transition-all duration-200 cursor-pointer group">
+				<div className="flex items-center justify-center p-3 rounded-lg hover:bg-gray-100 transition-all duration-200 cursor-pointer group">
 					<ConnectButton showDisconnect={false} />
 				</div>
 			</div>

@@ -109,26 +109,27 @@ export function ConnectButton({
 		return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
 	};
 
-	if (authenticated) {
+	// Create user when authenticated and address is available
+	useEffect(() => {
 		const createUserIfNeeded = async () => {
-			if (address) {
+			if (authenticated && address) {
 				try {
 					const result = await createUserAction(
 						address,
 						`User ${address.slice(0, 6)}...${address.slice(-4)}`
 					);
-					
+
 					if (!result.success) {
-						console.error('Failed to create user:', result.error);
+						console.error("Failed to create user:", result.error);
 					}
 				} catch (error) {
-					console.error('Error creating user:', error);
+					console.error("Error creating user:", error);
 				}
 			}
 		};
-		
+
 		createUserIfNeeded();
-	}
+	}, [authenticated, address]);
 
 	const handleLogout = async () => {
 		await logout();
