@@ -15,6 +15,6 @@ export function useAgent() {
 
 	return {
 		agent: getAgent(),
-		isReady: !!walletClient && !!publicClient
+		isReady: !!walletClient && !!publicClient,
 	};
 }

@@ -40,45 +40,42 @@ type PluginMethods<T> = T extends Plugin ? T["methods"] : Record<string, never>;
  * agentWithPlugins.methods.transferToken("SomePublicKey", 100);
  */
 export class EvmAgentKit<TPlugins = Record<string, never>> {
-  public connection: PublicClient;
-  public config: Config;
-  public wallet: WalletClient;
-  private plugins: Map<string, Plugin> = new Map();
+	public connection: PublicClient;
+	public config: Config;
+	public wallet: WalletClient;
+	private plugins: Map<string, Plugin> = new Map();
 
-  public methods: TPlugins = {} as TPlugins;
-  public actions: Action[] = [];
+	public methods: TPlugins = {} as TPlugins;
+	public actions: Action[] = [];
 
-  constructor(wallet: WalletClient, rpc:PublicClient, config: Config) {
-    this.connection = rpc;
-    this.wallet = wallet;
-    this.config = config;
-  }
+	constructor(wallet: WalletClient, rpc: PublicClient, config: Config) {
+		this.connection = rpc;
+		this.wallet = wallet;
+		this.config = config;
+	}
 
-  /**
-   * Adds a plugin and registers its methods inside `methods`
-   */
-  use<P extends Plugin>(
-    plugin: P,
-  ): EvmAgentKit<TPlugins & PluginMethods<P>> {
-    if (this.plugins.has(plugin.name)) {
-      return this as EvmAgentKit<TPlugins & PluginMethods<P>>;
-    }
-    plugin.initialize(this as EvmAgentKit);
+	/**
+	 * Adds a plugin and registers its methods inside `methods`
+	 */
+	use<P extends Plugin>(plugin: P): EvmAgentKit<TPlugins & PluginMethods<P>> {
+		if (this.plugins.has(plugin.name)) {
+			return this as EvmAgentKit<TPlugins & PluginMethods<P>>;
+		}
+		plugin.initialize(this as EvmAgentKit);
 
-    // Register plugin methods inside `methods`
-    for (const [methodName, method] of Object.entries(plugin.methods)) {
-      if ((this.methods as Record<string, unknown>)[methodName]) {
-        throw new Error(`Method ${methodName} already exists in methods`);
-      }
-      (this.methods as Record<string, unknown>)[methodName] =
-        method.bind(plugin);
-    }
+		// Register plugin methods inside `methods`
+		for (const [methodName, method] of Object.entries(plugin.methods)) {
+			if ((this.methods as Record<string, unknown>)[methodName]) {
+				throw new Error(`Method ${methodName} already exists in methods`);
+			}
+			(this.methods as Record<string, unknown>)[methodName] = method.bind(plugin);
+		}
 
-    for (const action of plugin.actions) {
-      this.actions.push(action);
-    }
+		for (const action of plugin.actions) {
+			this.actions.push(action);
+		}
 
-    this.plugins.set(plugin.name, plugin);
-    return this as EvmAgentKit<TPlugins & PluginMethods<P>>;
-  }
+		this.plugins.set(plugin.name, plugin);
+		return this as EvmAgentKit<TPlugins & PluginMethods<P>>;
+	}
 }
