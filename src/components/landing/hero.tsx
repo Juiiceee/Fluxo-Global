@@ -26,7 +26,7 @@ export default function Hero() {
 				<h1 className="text-4xl md:text-5xl lg:text-7xl font-light text-black mb-6 tracking-tight leading-tight">
 					Use blockchain.
 					<br />
-					<span className="font-normal">Use Flexo.</span>
+					<span className="font-normal">Use Fluxo.</span>
 				</h1>
 				<p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto font-light">
 					Blockchain is complicated. Fluxo makes it simple.
