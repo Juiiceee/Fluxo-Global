@@ -29,14 +29,12 @@ export function GenericToolConfirmation({
   const [error, setError] = useState<string | null>(null);
 
   const handleConfirm = useCallback(async () => {
-    console.log("handleConfirm", agent, addToolResult, args, action, toolCallId);
     if (!agent || !addToolResult) return;
 
     setState('processing');
     setError(null);
 
     try {
-      console.log("executeAction", action, agent, args);
       const result = await executeAction(action, agent, args);
       
       addToolResult({

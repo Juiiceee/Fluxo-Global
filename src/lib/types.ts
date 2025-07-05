@@ -11,6 +11,7 @@ export type MessageMetadata = z.infer<typeof messageMetadataSchema>;
 
 export type ChatTools = {
 	ERC20_TRANSFER: any;
+	LZ_TRANSFER: any;
 };
 
 export type CustomUIDataTypes = {
