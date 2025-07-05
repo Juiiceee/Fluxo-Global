@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from "react";
 import MessageBubble from "./MessageBubble";
 import { cn } from "@/components/utils";
 import { Message } from "@/types/chat";
+import Image from "next/image";
 
 interface ChatAreaProps {
 	messages: Message[];
@@ -38,28 +39,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({ messages, isLoading = false, classN
 					{messages.length === 0 ? (
 						<div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
 							<div className="relative mb-8">
-								<div className="w-20 h-20 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-3xl flex items-center justify-center shadow-2xl">
-									<div className="w-12 h-12 bg-gradient-to-br from-white to-gray-100 rounded-2xl flex items-center justify-center">
-										<svg
-											className="w-6 h-6 text-gray-900"
-											fill="none"
-											stroke="currentColor"
-											viewBox="0 0 24 24"
-										>
-											<path
-												strokeLinecap="round"
-												strokeLinejoin="round"
-												strokeWidth={1.5}
-												d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-											/>
-										</svg>
-									</div>
-								</div>
-								<div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
-									<svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24">
-										<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-									</svg>
-								</div>
+								<Image src="/borderFluxo.png" alt="Fluxo" width={100} height={100} />
 							</div>
 
 							<div className="space-y-4 max-w-md">
