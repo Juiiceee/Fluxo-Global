@@ -4,6 +4,7 @@ import { usePrivy } from "@privy-io/react-auth";
 import { useAccount } from "wagmi";
 import { useState } from "react";
 import { toast } from "sonner";
+import { createUserAction } from "@/lib/actions/user";
 
 export function ConnectButton() {
 	const { ready, authenticated, login, logout } = usePrivy();
@@ -19,6 +20,26 @@ export function ConnectButton() {
 			duration: 3000,
 		});
 		setIsAuthenticated(true);
+		
+		// Create user if they don't exist
+		const createUserIfNeeded = async () => {
+			if (address) {
+				try {
+					const result = await createUserAction(
+						address,
+						`User ${address.slice(0, 6)}...${address.slice(-4)}`
+					);
+					
+					if (!result.success) {
+						console.error('Failed to create user:', result.error);
+					}
+				} catch (error) {
+					console.error('Error creating user:', error);
+				}
+			}
+		};
+		
+		createUserIfNeeded();
 	}
 
 	const handleLogout = async () => {

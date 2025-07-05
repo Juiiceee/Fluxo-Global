@@ -20,7 +20,6 @@ import { useArtifactSelector } from "@/hooks/use-artifact";
 import { useAutoResume } from "@/hooks/use-auto-resume";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
 import { PostRequestBody } from "@/app/(chat)/api/chat/schema";
-import { useAccount } from "wagmi";
 import { usePrivy } from "@privy-io/react-auth";
 
 interface ChatLayoutProps {
@@ -30,6 +29,7 @@ interface ChatLayoutProps {
 	initialChatModel: string;
 	isReadonly: boolean;
 	autoResume: boolean;
+	address: string;
 }
 
 export function Chat({
@@ -39,13 +39,13 @@ export function Chat({
 	isReadonly,
 	autoResume,
 	className,
+	address,
 }: ChatLayoutProps) {
 	const queryClient = useQueryClient();
 	const { setDataStream } = useDataStream();
 	const { ready, user } = usePrivy();
-	const [input, setInput] = useState<string>("");
 	const [sidebarOpen, setSidebarOpen] = useState(false);
-
+	
 	const { messages, setMessages, sendMessage, status, stop, regenerate, resumeStream } =
 		useChat<ChatMessage>({
 			id,
@@ -61,7 +61,7 @@ export function Chat({
 							id,
 							message: messages.at(-1)! as any,
 							selectedChatModel: initialChatModel as "chat-model" | "chat-model-reasoning",
-							userAddress: user?.wallet?.address ?? "0x",
+							userAddress: address,
 							...body,
 						} satisfies PostRequestBody,
 					};
@@ -99,8 +99,6 @@ export function Chat({
 
 	const [attachments, setAttachments] = useState<Array<Attachment>>([]);
 
-	const isLoading = status === "streaming";
-
 	useAutoResume({
 		autoResume,
 		initialMessages,
@@ -116,7 +114,6 @@ export function Chat({
 			parts: [{ type: "text", text: message }],
 		});
 
-		setInput("");
 		setAttachments([]);
 	};
 
@@ -130,7 +127,7 @@ export function Chat({
 			timestamp: new Date(),
 		}));
 
-	if (!ready) return <div>Loading...</div>;
+	if (!ready || !user?.wallet?.address) return <div>Loading...</div>;
 
 	return (
 		<div className={cn("h-screen flex flex-col", className)}>
@@ -180,8 +177,8 @@ export function Chat({
 
 				{/* Chat Content */}
 				<div className="flex-1 flex flex-col min-h-0">
-					<ChatArea messages={convertedMessages} isLoading={isLoading} />
-					<ChatInput onSendMessage={handleSendMessage} isLoading={isLoading} />
+					<ChatArea messages={convertedMessages} isLoading={false} />
+					<ChatInput onSendMessage={handleSendMessage} isLoading={false} />
 				</div>
 			</div>
 		</div>

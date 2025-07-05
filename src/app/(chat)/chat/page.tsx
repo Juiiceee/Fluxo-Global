@@ -1,4 +1,5 @@
 import ChatLayout, { Chat } from "@/components/chat/Chat";
+import { ChatWrapper } from "@/components/chat/ChatWrapper";
 import { DataStreamHandler } from "@/components/data-stream-handler";
 import { DEFAULT_CHAT_MODEL } from "@/lib/ai/models";
 import { generateUUID } from "@/lib/utils";
@@ -20,7 +21,7 @@ export default async function Page() {
 	if (!modelIdFromCookie) {
 		return (
 			<>
-				<Chat
+				<ChatWrapper
 					key={id}
 					id={id}
 					initialMessages={[]}
@@ -35,7 +36,7 @@ export default async function Page() {
 
 	return (
 		<>
-			<Chat
+			<ChatWrapper
 				key={id}
 				id={id}
 				initialMessages={[]}
