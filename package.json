@@ -19,6 +19,7 @@
     "@langchain/core": "^0.3.62",
     "@prisma/client": "^6.11.1",
     "@privy-io/react-auth": "^2.17.3",
+    "@privy-io/server-auth": "^1.28.2",
     "@privy-io/wagmi": "^1.0.5",
     "@tanstack/react-query": "^5.81.5",
     "ai": "5.0.0-beta.6",
