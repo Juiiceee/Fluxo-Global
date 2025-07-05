@@ -3,7 +3,7 @@ import "server-only";
 import { prisma } from "../prisma";
 import { ChatSDKError } from "../errors";
 import { Address } from "viem";
-import { User as PrismaUser, Chat as PrismaChat, Message } from '@/generated/prisma';
+import { User as PrismaUser, Chat as PrismaChat, Message } from "@/generated/prisma";
 import { InputJsonValue } from "@prisma/client/runtime/library";
 
 // Type definitions based on Prisma models
