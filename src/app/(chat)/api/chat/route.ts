@@ -28,8 +28,10 @@ import type { ChatModel } from "@/lib/ai/models";
 import { generateTitleFromUserMessage } from "../../actions";
 import { myProvider } from "@/lib/ai/providers";
 import { agentBuilder } from "@/agent/agentBuilder";
-import { createPublicClient, createWalletClient } from "viem";
+import { createPublicClient, createWalletClient, http } from "viem";
 import { createVercelAITools } from "@/agent";
+import { generatePrivateKey, privateKeyToAccount } from "viem/accounts";
+import { mainnet } from "viem/chains";
 
 export const maxDuration = 60;
 
@@ -65,21 +67,20 @@ export async function POST(request: Request) {
 	}
 
 	try {
-		const {
-			id,
-			userAddress,
-			message,
-			selectedChatModel,
-		}: {
-			id: string;
-			message: ChatMessage;
-			selectedChatModel: ChatModel["id"];
-			userAddress: string;
-		} = requestBody;
+		const { id, userAddress, message, selectedChatModel } = requestBody;
 
-		const wc = createWalletClient({} as any);
-		const chain = createPublicClient({} as any);
-		const agent = agentBuilder(wc, chain);
+		const pk = generatePrivateKey();
+		const account = privateKeyToAccount(pk);
+		const wallet = createWalletClient({
+			account,
+			chain: mainnet,
+			transport: http(),
+		});
+		const publicClient = createPublicClient({
+			transport: http(),
+			chain: mainnet,
+		});
+		const agent = agentBuilder(wallet, publicClient);
 		const vercelTools = createVercelAITools(agent, agent.actions);
 
 		const messageCount = await getMessageCountByUserAddress({
@@ -181,12 +182,14 @@ export async function POST(request: Request) {
 				)
 			);
 		} else {
-			return new Response(stream);
+			return new Response(stream.pipeThrough(new JsonToSseTransformStream()));
 		}
 	} catch (error) {
 		if (error instanceof ChatSDKError) {
 			return error.toResponse();
 		}
+		console.error("Unexpected error:", error);
+		return new Response("Internal Server Error", { status: 500 });
 	}
 }
 
