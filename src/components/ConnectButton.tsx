@@ -26,7 +26,7 @@ export function ConnectButton() {
 					relative overflow-hidden group
 					px-6 py-3 rounded-2xl
 					font-semibold text-white text-base
-					bg-gradient-to-r from-primary to-secondary
+					bg-secondary
 					hover:from-primary/90 hover:to-secondary/90
 					transition-all duration-200 ease-out
 					transform hover:scale-[1.02] hover:shadow-xl
@@ -47,22 +47,22 @@ export function ConnectButton() {
 					</svg>
 					<span>Connect Wallet</span>
 				</div>
-				
+
 				{/* Animated shimmer effect */}
 				<div
 					className={`
 						absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent
 						transition-all duration-1000 ease-out
-						${isHovered ? 'translate-x-full opacity-100' : '-translate-x-full opacity-0'}
+						${isHovered ? "translate-x-full opacity-100" : "-translate-x-full opacity-0"}
 					`}
 				/>
-				
+
 				{/* Subtle glow effect */}
 				<div
 					className={`
 						absolute inset-0 bg-gradient-to-r from-primary/30 to-secondary/30
 						blur-sm transition-opacity duration-300 ease-out
-						${isHovered ? 'opacity-100' : 'opacity-0'}
+						${isHovered ? "opacity-100" : "opacity-0"}
 					`}
 				/>
 			</button>
@@ -91,16 +91,12 @@ export function ConnectButton() {
 					</div>
 					<div className="h-4 w-px bg-gray-300 dark:bg-gray-700" />
 				</div>
-				
+
 				{address && (
 					<div className="flex items-center gap-2">
 						{/* Wallet icon */}
 						<div className="w-6 h-6 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
-							<svg
-								className="w-3 h-3 text-white"
-								fill="currentColor"
-								viewBox="0 0 24 24"
-							>
+							<svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24">
 								<path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
 							</svg>
 						</div>
@@ -120,11 +116,11 @@ export function ConnectButton() {
 						font-medium text-gray-700 dark:text-gray-300
 						transition-all duration-200 ease-out
 						transform hover:scale-105
-						${isHovered ? 'text-red-600 dark:text-red-400' : ''}
+						${isHovered ? "text-red-600 dark:text-red-400" : ""}
 					`}
 				>
 					<svg
-						className={`w-4 h-4 transition-transform duration-200 ${isHovered ? 'rotate-12' : ''}`}
+						className={`w-4 h-4 transition-transform duration-200 ${isHovered ? "rotate-12" : ""}`}
 						fill="none"
 						stroke="currentColor"
 						viewBox="0 0 24 24"
@@ -137,17 +133,17 @@ export function ConnectButton() {
 						/>
 					</svg>
 					<span className="text-sm">Disconnect</span>
-					
+
 					{/* Hover background for disconnect area */}
 					<div
 						className={`
 							absolute inset-0 bg-red-50 dark:bg-red-900/20 rounded-xl
 							transition-opacity duration-200 ease-out
-							${isHovered ? 'opacity-100' : 'opacity-0'}
+							${isHovered ? "opacity-100" : "opacity-0"}
 						`}
 					/>
 				</div>
 			</div>
 		</div>
 	);
-} 
+}
