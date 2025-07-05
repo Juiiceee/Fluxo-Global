@@ -3,14 +3,47 @@
 import { usePrivy } from "@privy-io/react-auth";
 import { useAccount } from "wagmi";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export function ConnectButton() {
 	const { ready, authenticated, login, logout } = usePrivy();
 	const { address, isConnected } = useAccount();
 	const [isHovered, setIsHovered] = useState(false);
-
+	const [isAuthenticated, setIsAuthenticated] = useState(false);
 	const formatAddress = (addr: string) => {
 		return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
+	};
+
+	if (authenticated && !isAuthenticated) {
+		toast.success("You are connected to the network", {
+			duration: 3000,
+		});
+		setIsAuthenticated(true);
+	}
+
+	const handleLogout = async () => {
+		await logout();
+		toast.success("You are disconnected from the network", {
+			duration: 3000,
+		});
+		setIsAuthenticated(false);
+	};
+
+	const copyAddress = async () => {
+		if (address) {
+			try {
+				await navigator.clipboard.writeText(address);
+				toast.success("Address copied to clipboard!", {
+					duration: 3000,
+				});
+			} catch (err) {
+				console.error("Failed to copy address:", err);
+				toast.error("Failed to copy address", {
+					description: "Please try again",
+					duration: 3000,
+				});
+			}
+		}
 	};
 
 	const disableLogin = !ready || authenticated;
@@ -93,15 +126,21 @@ export function ConnectButton() {
 								<path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
 							</svg>
 						</div>
-						<span className="text-sm font-mono text-gray-900 dark:text-gray-100">
-							{formatAddress(address)}
-						</span>
+						<div onClick={copyAddress} className="relative group cursor-pointer">
+							<span className="text-sm font-mono text-gray-900 dark:text-gray-100 hover:text-primary transition-colors duration-200">
+								{formatAddress(address)}
+							</span>
+							{/* Tooltip simple au hover */}
+							<div className="absolute -top-8 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-black text-white text-xs rounded transition-opacity duration-200 pointer-events-none opacity-0 group-hover:opacity-100">
+								click to copy
+							</div>
+						</div>
 					</div>
 				)}
 
 				{/* Disconnect section */}
 				<div
-					onClick={logout}
+					onClick={handleLogout}
 					onMouseEnter={() => setIsHovered(true)}
 					onMouseLeave={() => setIsHovered(false)}
 					className={`
