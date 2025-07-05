@@ -21,13 +21,14 @@ import { useQueryClient } from "@tanstack/react-query";
 import { PostRequestBody } from "@/app/(chat)/api/chat/schema";
 import { usePrivy } from "@privy-io/react-auth";
 import Link from "next/link";
+import { Messages } from "./messages";
+import { useArtifactSelector } from "@/hooks/use-artifact";
 
 interface ChatLayoutProps {
 	className?: string;
 	id: string;
 	initialMessages: ChatMessage[];
 	initialChatModel: string;
-	isReadonly: boolean;
 	autoResume: boolean;
 	address: string;
 }
@@ -36,7 +37,6 @@ export function Chat({
 	id,
 	initialMessages,
 	initialChatModel,
-	isReadonly,
 	autoResume,
 	className,
 	address,
@@ -48,7 +48,7 @@ export function Chat({
 	const query = searchParams.get("query");
 	const [hasAppendedQuery, setHasAppendedQuery] = useState(false);
 	const [sidebarOpen, setSidebarOpen] = useState(true);
-
+	const isArtifactVisible = useArtifactSelector((state) => state.isVisible);
 	const { messages, setMessages, sendMessage, status, stop, regenerate, resumeStream } =
 		useChat<ChatMessage>({
 			id,
@@ -206,7 +206,14 @@ export function Chat({
 
 					{/* Chat Content */}
 					<div className="flex-1 flex flex-col min-h-0">
-						<ChatArea messages={convertedMessages} isLoading={false} />
+					<Messages
+          chatId={id}
+          status={status}
+          messages={messages}
+          setMessages={setMessages}
+          regenerate={regenerate}
+          isArtifactVisible={isArtifactVisible}
+        />
 						<ChatInput onSendMessage={handleSendMessage} isLoading={false} />
 					</div>
 				</div>

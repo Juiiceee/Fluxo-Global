@@ -131,7 +131,7 @@ export async function POST(request: Request) {
 					experimental_activeTools:
 						selectedChatModel === "chat-model-reasoning"
 							? []
-							: ["getWeather", "createDocument", "updateDocument", "requestSuggestions"],
+							: Object.keys(vercelTools),
 					experimental_transform: smoothStream({ chunking: "word" }),
 					tools: vercelTools,
 					experimental_telemetry: {

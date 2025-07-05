@@ -9,7 +9,9 @@ export const messageMetadataSchema = z.object({
 
 export type MessageMetadata = z.infer<typeof messageMetadataSchema>;
 
-export type ChatTools = {};
+export type ChatTools = {
+	ERC20_TRANSFER: any;
+};
 
 export type CustomUIDataTypes = {
 	textDelta: string;
