@@ -1,153 +1,158 @@
-'use client';
+"use client";
 
-import React, { useState, useRef, KeyboardEvent } from 'react';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { cn } from '@/components/utils';
+import React, { useState, useRef, KeyboardEvent } from "react";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/components/utils";
 
 interface ChatInputProps {
-  onSendMessage: (message: string) => void;
-  isLoading?: boolean;
-  className?: string;
+	onSendMessage: (message: string) => void;
+	isLoading?: boolean;
+	className?: string;
 }
 
 const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, isLoading = false, className }) => {
-  const [inputValue, setInputValue] = useState('');
-  const [isFocused, setIsFocused] = useState(false);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+	const [inputValue, setInputValue] = useState("");
+	const [isFocused, setIsFocused] = useState(false);
+	const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (inputValue.trim() && !isLoading) {
-      onSendMessage(inputValue.trim());
-      setInputValue('');
-      
-      // Reset textarea height
-      if (textareaRef.current) {
-        textareaRef.current.style.height = 'auto';
-      }
-    }
-  };
+	const handleSubmit = (e: React.FormEvent) => {
+		e.preventDefault();
+		if (inputValue.trim() && !isLoading) {
+			onSendMessage(inputValue.trim());
+			setInputValue("");
 
-  const handleKeyPress = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSubmit(e);
-    }
-  };
+			// Reset textarea height
+			if (textareaRef.current) {
+				textareaRef.current.style.height = "auto";
+			}
+		}
+	};
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setInputValue(e.target.value);
-    
-    if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 120)}px`;
-    }
-  };
+	const handleKeyPress = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+		if (e.key === "Enter" && !e.shiftKey) {
+			e.preventDefault();
+			handleSubmit(e);
+		}
+	};
 
-  return (
-    <div className={cn('border-t border-gray-200/50 bg-gradient-to-r from-white via-gray-50 to-white', className)}>
-      <div className="max-w-4xl mx-auto px-6 py-6">
-        <form onSubmit={handleSubmit} className="relative">
-          <div className={cn(
-            'relative bg-gradient-to-r from-white to-gray-50 border-2 rounded-3xl transition-all duration-300 shadow-lg backdrop-blur-sm',
-            isFocused 
-              ? 'border-gray-300 shadow-xl shadow-gray-200/50' 
-              : 'border-gray-200 hover:border-gray-250'
-          )}>
-            {/* Input area */}
-            <div className="flex items-end p-4 space-x-4">
-              <div className="flex-1 relative">
-                <Textarea
-                  ref={textareaRef}
-                  value={inputValue}
-                  onChange={handleInputChange}
-                  onKeyDown={handleKeyPress}
-                  onFocus={() => setIsFocused(true)}
-                  onBlur={() => setIsFocused(false)}
-                  placeholder="Type your message..."
-                  className="min-h-[52px] max-h-[120px] resize-none border-0 bg-transparent focus:ring-0 focus:outline-none placeholder:text-gray-500 text-gray-900 px-0 py-0"
-                  rows={1}
-                  disabled={isLoading}
-                />
-                
-                {/* Floating placeholder enhancement */}
-                {!inputValue && !isFocused && (
-                  <div className="absolute inset-0 flex items-center pointer-events-none">
-                    <span className="text-gray-400 text-sm font-medium">
-                      ✨ Ask me anything...
-                    </span>
-                  </div>
-                )}
-              </div>
+	const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+		setInputValue(e.target.value);
 
-              {/* Premium Send Button */}
-              <Button
-                type="submit"
-                disabled={!inputValue.trim() || isLoading}
-                className={cn(
-                  'relative px-6 py-3 h-12 rounded-2xl font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed',
-                  'bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 hover:from-gray-800 hover:via-gray-700 hover:to-gray-800',
-                  'text-white shadow-lg hover:shadow-xl active:scale-95',
-                  'disabled:hover:from-gray-900 disabled:hover:via-gray-800 disabled:hover:to-gray-900 disabled:active:scale-100'
-                )}
-              >
-                {isLoading ? (
-                  <div className="flex items-center space-x-2">
-                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                    <span className="text-sm">Sending</span>
-                  </div>
-                ) : (
-                  <div className="flex items-center space-x-2">
-                    <svg
-                      className="w-5 h-5 transform transition-transform duration-200 group-hover:translate-x-0.5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-                      />
-                    </svg>
-                    <span className="text-sm font-medium">Send</span>
-                  </div>
-                )}
-              </Button>
-            </div>
+		if (textareaRef.current) {
+			textareaRef.current.style.height = "auto";
+			textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 120)}px`;
+		}
+	};
 
-            {/* Shimmer effect */}
-            <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-transparent via-gray-100/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
-          </div>
-        </form>
-        
-        {/* Enhanced Footer */}
-        <div className="mt-4 flex items-center justify-between text-xs text-gray-500">
-          <div className="flex items-center space-x-4">
-            <span className="flex items-center space-x-1">
-              <kbd className="px-2 py-1 bg-gradient-to-r from-gray-100 to-gray-50 border border-gray-200 rounded font-medium">
-                Enter
-              </kbd>
-              <span>to send</span>
-            </span>
-            <span className="flex items-center space-x-1">
-              <kbd className="px-2 py-1 bg-gradient-to-r from-gray-100 to-gray-50 border border-gray-200 rounded font-medium">
-                Shift + Enter
-              </kbd>
-              <span>new line</span>
-            </span>
-          </div>
-          
-          <div className="flex items-center space-x-1">
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-            <span className="font-medium">AI Online</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+	return (
+		<div
+			className={cn(
+				"border-t border-gray-200/50 bg-gradient-to-r from-white via-gray-50 to-white",
+				className
+			)}
+		>
+			<div className="max-w-4xl mx-auto px-6 py-6">
+				<form onSubmit={handleSubmit} className="relative">
+					<div
+						className={cn(
+							"relative bg-gradient-to-r from-white to-gray-50 border-2 rounded-3xl transition-all duration-300 shadow-lg backdrop-blur-sm",
+							isFocused
+								? "border-gray-300 shadow-xl shadow-gray-200/50"
+								: "border-gray-200 hover:border-gray-250"
+						)}
+					>
+						{/* Input area */}
+						<div className="flex items-end p-4 space-x-4">
+							<div className="flex-1 relative">
+								<Textarea
+									ref={textareaRef}
+									value={inputValue}
+									onChange={handleInputChange}
+									onKeyDown={handleKeyPress}
+									onFocus={() => setIsFocused(true)}
+									onBlur={() => setIsFocused(false)}
+									placeholder="Type your message..."
+									className="min-h-[52px] max-h-[120px] resize-none border-0 bg-transparent focus:ring-0 focus:outline-none placeholder:text-gray-500 text-gray-900 px-0 py-0"
+									rows={1}
+									disabled={isLoading}
+								/>
+
+								{/* Floating placeholder enhancement */}
+								{!inputValue && !isFocused && (
+									<div className="absolute inset-0 flex items-center pointer-events-none">
+										<span className="text-gray-400 text-sm font-medium">✨ Ask me anything...</span>
+									</div>
+								)}
+							</div>
+
+							{/* Premium Send Button */}
+							<Button
+								type="submit"
+								disabled={!inputValue.trim() || isLoading}
+								className={cn(
+									"relative px-6 py-3 h-12 rounded-2xl font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed",
+									"bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 hover:from-gray-800 hover:via-gray-700 hover:to-gray-800",
+									"text-white shadow-lg hover:shadow-xl active:scale-95",
+									"disabled:hover:from-gray-900 disabled:hover:via-gray-800 disabled:hover:to-gray-900 disabled:active:scale-100"
+								)}
+							>
+								{isLoading ? (
+									<div className="flex items-center space-x-2">
+										<div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+										<span className="text-sm">Sending</span>
+									</div>
+								) : (
+									<div className="flex items-center space-x-2">
+										<svg
+											className="w-5 h-5 transform transition-transform duration-200 group-hover:translate-x-0.5"
+											fill="none"
+											stroke="currentColor"
+											viewBox="0 0 24 24"
+										>
+											<path
+												strokeLinecap="round"
+												strokeLinejoin="round"
+												strokeWidth={2}
+												d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+											/>
+										</svg>
+										<span className="text-sm font-medium">Send</span>
+									</div>
+								)}
+							</Button>
+						</div>
+
+						{/* Shimmer effect */}
+						<div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-transparent via-gray-100/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+					</div>
+				</form>
+
+				{/* Enhanced Footer */}
+				<div className="mt-4 flex items-center justify-between text-xs text-gray-500">
+					<div className="flex items-center space-x-4">
+						<span className="flex items-center space-x-1">
+							<kbd className="px-2 py-1 bg-gradient-to-r from-gray-100 to-gray-50 border border-gray-200 rounded font-medium">
+								Enter
+							</kbd>
+							<span>to send</span>
+						</span>
+						<span className="flex items-center space-x-1">
+							<kbd className="px-2 py-1 bg-gradient-to-r from-gray-100 to-gray-50 border border-gray-200 rounded font-medium">
+								Shift + Enter
+							</kbd>
+							<span>new line</span>
+						</span>
+					</div>
+
+					<div className="flex items-center space-x-1">
+						<div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+						<span className="font-medium">AI Online</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
 };
 
-export default ChatInput; 
+export default ChatInput;
