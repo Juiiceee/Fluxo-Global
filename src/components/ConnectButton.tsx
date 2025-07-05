@@ -109,13 +109,7 @@ export function ConnectButton({
 		return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
 	};
 
-	if (authenticated && !isAuthenticated) {
-		toast.success("You are connected to the network", {
-			duration: 3000,
-		});
-		setIsAuthenticated(true);
-		
-		// Create user if they don't exist
+	if (authenticated) {
 		const createUserIfNeeded = async () => {
 			if (address) {
 				try {
