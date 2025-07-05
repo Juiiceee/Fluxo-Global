@@ -9,7 +9,6 @@ interface ChatLayoutProps {
 	id: string;
 	initialMessages: ChatMessage[];
 	initialChatModel: string;
-	isReadonly: boolean;
 	autoResume: boolean;
 }
 //Basically, we're forced to wrap the chat inside this "intermediary" because we have to give
@@ -20,7 +19,6 @@ export function ChatWrapper({
 	id,
 	initialMessages,
 	initialChatModel,
-	isReadonly,
 	autoResume,
 	className,
 }: ChatLayoutProps) {
@@ -33,7 +31,6 @@ export function ChatWrapper({
 			address={user.wallet.address}
 			initialMessages={initialMessages}
 			initialChatModel={initialChatModel}
-			isReadonly={isReadonly}
 			autoResume={autoResume}
 			className={className}
 		/>
