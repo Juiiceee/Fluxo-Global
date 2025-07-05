@@ -67,6 +67,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## 👥 Contributors
 
+<div align="center">
+
 <table>
   <tr>
     <td align="center">
@@ -83,9 +85,10 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
         <sub><b>Juiiceee</b></sub>
       </a>
     </td>
-    <!-- Add more contributors as needed -->
   </tr>
 </table>
+
+</div>
 
 ---
 
