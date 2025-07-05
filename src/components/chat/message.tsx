@@ -56,13 +56,42 @@ const PurePreviewMessage = ({
 			>
 				<div
 					className={cn(
-						"flex gap-4 w-full group-data-[role=user]/message:ml-auto group-data-[role=user]/message:max-w-2xlgroup-data-[role=user]/message:w-fit"
+						"flex gap-4 w-full",
+						{
+							// Messages utilisateur: alignés à droite avec avatar à droite
+							"ml-auto max-w-2xl w-fit flex-row-reverse": message.role === "user",
+							// Messages assistant: alignés à gauche avec avatar à gauche
+							"": message.role === "assistant",
+						}
 					)}
 				>
+					{/* Avatar pour l'assistant (à gauche) */}
 					{message.role === "assistant" && (
 						<div className="size-8 flex items-center rounded-full justify-center ring-1 shrink-0 ring-border bg-background">
 							<div className="translate-y-px">
 								<SparklesIcon size={14} />
+							</div>
+						</div>
+					)}
+
+					{/* Avatar pour l'utilisateur (à droite) */}
+					{message.role === "user" && (
+						<div className="size-8 flex items-center rounded-full justify-center ring-1 shrink-0 ring-border bg-primary">
+							<div className="translate-y-px">
+								<svg
+									width="14"
+									height="14"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									strokeWidth="2"
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									className="text-primary-foreground"
+								>
+									<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+									<circle cx="12" cy="7" r="4" />
+								</svg>
 							</div>
 						</div>
 					)}
