@@ -6,7 +6,6 @@ import { useAgent } from "@/hooks/useAgent";
 export default function Chat() {
 	const { agent, isReady } = useAgent();
 
-	console.log(agent?.actions);
 
 	return (
 		<div className="min-h-screen p-8">

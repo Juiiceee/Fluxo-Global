@@ -5,7 +5,6 @@ import { useCallback } from "react";
 export function useAgent() {
 	const { data: walletClient } = useWalletClient();
 	const publicClient = usePublicClient();
-	console.log(walletClient, publicClient);
 	const getAgent = useCallback(() => {
 		if (!walletClient || !publicClient) {
 			return null;
