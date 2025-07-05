@@ -258,10 +258,10 @@ export function ToolConfirmation({
 					description: 'Action was cancelled.',
 					showButtons: false,
 					showDetailsButton: false,
-					iconBg: 'bg-gray-100 border-gray-300 dark:bg-gray-500/10 dark:border-gray-500/20',
-					cardBg: 'bg-gray-50 border-2 border-gray-400 dark:bg-gray-500/5 dark:border-gray-500/40',
-					titleColor: 'text-gray-900 dark:text-gray-100',
-					descriptionColor: 'text-gray-800 dark:text-gray-200',
+					iconBg: 'bg-gray-100 text-black border-gray-300 dark:bg-gray-500/10 dark:border-gray-500/20',
+					cardBg: 'bg-gray-50 text-black border-2 border-gray-400 dark:bg-gray-500/5 dark:border-gray-500/40',
+					titleColor: 'text-black dark:text-gray-100',
+					descriptionColor: 'text-black dark:text-gray-200',
 				};
 			default:
 				return {

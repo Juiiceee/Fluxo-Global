@@ -127,12 +127,12 @@ const PurePreviewMessage = ({
 							if (type.startsWith("tool-")) {
 								const toolName = type.replace("tool-", "");
 								
-								// Check if this is a tool call that needs confirmation
-								if ('toolCallId' in part && 'state' in part && part.state === "input-available") {
+								// Check if this is a tool call
+								if ('toolCallId' in part && 'input' in part) {
 									// Find the action from the agent's actions by name
 									const action = agent.actions.find(a => a.name === toolName);
 									
-									if (action && 'input' in part) {
+									if (action) {
 										return (
 											<div key={part.toolCallId} className="skeleton">
 												<GenericToolConfirmation 
