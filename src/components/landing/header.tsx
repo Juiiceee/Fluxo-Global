@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Button } from "../ui/button";
+import { ConnectButton } from "@/components/ConnectButton";
 
 export default function Header() {
 	return (
@@ -27,15 +27,7 @@ export default function Header() {
 				</nav>
 
 				{/* Connect button on right */}
-				<div className="">
-					<Button
-						variant="outline"
-						size="sm"
-						className="border-black text-black hover:bg-black hover:text-white transition-all duration-300"
-					>
-						Connect
-					</Button>
-				</div>
+				<ConnectButton />
 			</div>
 		</header>
 	);

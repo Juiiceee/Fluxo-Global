@@ -2,6 +2,7 @@
 
 import { Suspense, useEffect, useState } from "react";
 import Landing from "@/components/landing/landing";
+import Image from "next/image";
 
 export default function LandingPage() {
 	return (
