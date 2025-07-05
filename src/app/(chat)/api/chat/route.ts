@@ -6,7 +6,6 @@ import {
 	stepCountIs,
 	streamText,
 } from "ai";
-import { InputJsonValue } from "@prisma/client/runtime/library";
 import { systemPrompt } from "@/lib/ai/prompts";
 import {
 	createStreamId,
@@ -23,12 +22,10 @@ import { postRequestBodySchema, type PostRequestBody } from "./schema";
 import { createResumableStreamContext, type ResumableStreamContext } from "resumable-stream";
 import { after } from "next/server";
 import { ChatSDKError } from "@/lib/errors";
-import type { ChatMessage } from "@/lib/types";
-import type { ChatModel } from "@/lib/ai/models";
 import { generateTitleFromUserMessage } from "../../actions";
 import { myProvider } from "@/lib/ai/providers";
-import { agentBuilder } from "@/agent/agentBuilder";
-import { createPublicClient, createWalletClient, http } from "viem";
+import { defaultAgentBuilder } from "@/agent/agentBuilder";
+import { createWalletClient, http } from "viem";
 import { createVercelAITools } from "@/agent";
 import { generatePrivateKey, privateKeyToAccount } from "viem/accounts";
 import { mainnet } from "viem/chains";
@@ -76,11 +73,8 @@ export async function POST(request: Request) {
 			chain: mainnet,
 			transport: http(),
 		});
-		const publicClient = createPublicClient({
-			transport: http(),
-			chain: mainnet,
-		});
-		const agent = agentBuilder(wallet, publicClient);
+		if (userAddress) wallet.account.address = userAddress as `0x${string}`;
+		const agent = defaultAgentBuilder(wallet);
 		const vercelTools = createVercelAITools(agent, agent.actions);
 
 		const messageCount = await getMessageCountByUserAddress({
@@ -131,7 +125,7 @@ export async function POST(request: Request) {
 			execute: ({ writer: dataStream }) => {
 				const result = streamText({
 					model: myProvider.languageModel(selectedChatModel),
-					system: systemPrompt({ selectedChatModel }),
+					system: systemPrompt({ userAddress }),
 					messages: convertToModelMessages(uiMessages),
 					stopWhen: stepCountIs(5),
 					experimental_activeTools:
