@@ -12,7 +12,7 @@ interface ChatLayoutProps {
 	isReadonly: boolean;
 	autoResume: boolean;
 }
-//Basically, we're forced to wrap the chat inside this "intermediary" because we have to give 
+//Basically, we're forced to wrap the chat inside this "intermediary" because we have to give
 // the address as a property (due to the useChat hook fns not getting updated after rerenders).
 // Since the parent component is a server component, we can't use useEffect to update the address.
 // So, we have to wrap the chat inside this "intermediary" component.

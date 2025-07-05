@@ -7,7 +7,7 @@ export default function Action() {
 	return (
 		<div className="container max-w-5xl mx-auto px-4">
 			<h2 className="text-5xl sm:text-6xl md:text-7xl font-light mb-12 leading-tight text-black tracking-tight">
-				Blockchain is for <br />
+				Power to <br />
 				<span className="font-normal bg-clip-text text-transparent bg-gradient-to-r from-black to-gray-600">
 					Everyone
 				</span>
@@ -26,7 +26,7 @@ export default function Action() {
 					onClick={() => scrollToSection("section0")}
 					variant="ghost"
 					size="lg"
-					className="text-gray-400 hover:text-black transition-colors duration-300"
+					className="text-black hover:text-white transition-colors duration-300"
 				>
 					<ChevronUp className="animate-bounce" size={32} />
 				</Button>

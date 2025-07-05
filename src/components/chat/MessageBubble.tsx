@@ -1,6 +1,7 @@
 import React from "react";
 import { cn } from "@/components/utils";
 import { Message } from "@/types/chat";
+import Image from "next/image";
 
 interface MessageBubbleProps {
 	message: Message;
@@ -33,29 +34,21 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, className }) => 
 						)}
 					>
 						{isUser ? (
-							<div className="w-6 h-6 bg-gradient-to-br from-white to-gray-100 rounded-lg flex items-center justify-center">
-								<svg className="w-3 h-3 text-gray-900" fill="currentColor" viewBox="0 0 24 24">
-									<path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-								</svg>
+							<div className="w-6 h-6 flex items-center justify-center">
+								<Image src="/you.png" alt="Fluxo" width={20} height={20} className="rounded-sm" />
 							</div>
 						) : (
-							<div className="w-6 h-6 bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg flex items-center justify-center">
-								<svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24">
-									<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-								</svg>
+							<div className="size-8 flex items-center justify-center">
+								<Image
+									src="/borderFluxo.png"
+									alt="Fluxo"
+									width={30}
+									height={30}
+									className="rounded-sm"
+								/>
 							</div>
 						)}
 					</div>
-
-					{/* Status indicator */}
-					<div
-						className={cn(
-							"absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-white shadow-sm",
-							isUser
-								? "bg-gradient-to-br from-green-400 to-green-500"
-								: "bg-gradient-to-br from-blue-500 to-blue-600"
-						)}
-					></div>
 				</div>
 
 				{/* Message Content */}
@@ -69,7 +62,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, className }) => 
 								: "bg-gradient-to-r from-gray-100 to-gray-50 text-gray-800 border border-gray-200 shadow-sm"
 						)}
 					>
-						{isUser ? "You" : "AI Assistant"}
+						{isUser ? "You" : "Fluxo"}
 					</div>
 
 					{/* Premium Message Bubble */}
