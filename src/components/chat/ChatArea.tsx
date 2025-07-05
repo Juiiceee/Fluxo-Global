@@ -64,19 +64,18 @@ const ChatArea: React.FC<ChatAreaProps> = ({ messages, isLoading = false, classN
 
 							<div className="space-y-4 max-w-md">
 								<h2 className="text-2xl font-bold bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent">
-									Welcome to Premium AI
+									Welcome to Flexo Chat
 								</h2>
 								<p className="text-gray-600 leading-relaxed">
-									Experience intelligent conversations with our advanced AI assistant. Ask
-									questions, explore ideas, or engage in creative discussions.
+								You can ask me to swap tokens, check your balance, or do anything you want.
 								</p>
 
 								<div className="flex flex-wrap gap-2 justify-center pt-4">
 									{[
-										"💡 Creative writing",
-										"🔍 Research & analysis",
-										"📊 Data insights",
-										"🎯 Strategic planning",
+										"🔄 Swap tokens",
+										"💰 Check your balance",
+										"📈 Check your transactions",
+										"⚡ Do anything you want",
 									].map((tag, index) => (
 										<span
 											key={index}
