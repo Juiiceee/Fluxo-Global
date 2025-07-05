@@ -1,3 +1,4 @@
+import { PublicClient, WalletClient } from "viem";
 import type { Action, Config, Plugin } from "../types";
 
 /**
@@ -39,16 +40,16 @@ type PluginMethods<T> = T extends Plugin ? T["methods"] : Record<string, never>;
  * agentWithPlugins.methods.transferToken("SomePublicKey", 100);
  */
 export class EvmAgentKit<TPlugins = Record<string, never>> {
-  public connection: any;
+  public connection: PublicClient;
   public config: Config;
-  public wallet: any;
+  public wallet: WalletClient;
   private plugins: Map<string, Plugin> = new Map();
 
   public methods: TPlugins = {} as TPlugins;
   public actions: Action[] = [];
 
-  constructor(wallet: any, rpc_url: string, config: Config) {
-    this.connection = 2;
+  constructor(wallet: WalletClient, rpc:PublicClient, config: Config) {
+    this.connection = rpc;
     this.wallet = wallet;
     this.config = config;
   }
