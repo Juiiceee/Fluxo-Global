@@ -61,8 +61,7 @@ export default function Hero() {
 				<Button
 					asChild
 					size="lg"
-					variant="outline"
-					className="border-black text-black hover:bg-black hover:text-white transition-all duration-300 px-8 py-3 text-base font-medium"
+					className="bg-black text-white hover:bg-gray-800 transition-all duration-300 px-8 py-3 text-base font-medium"
 				>
 					<Link href="/configure">Explore Tools</Link>
 				</Button>
