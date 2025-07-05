@@ -87,7 +87,7 @@ const PurePreviewMessage = ({
 									strokeWidth="2"
 									strokeLinecap="round"
 									strokeLinejoin="round"
-									className="text-primary-foreground"
+									className="text-black"
 								>
 									<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
 									<circle cx="12" cy="7" r="4" />
@@ -97,7 +97,7 @@ const PurePreviewMessage = ({
 					)}
 
 					<div
-						className={cn("flex flex-col gap-4 w-full", {
+						className={cn("flex flex-col gap-4 w-full text-black", {
 							"min-h-96": message.role === "assistant" && requiresScrollPadding,
 						})}
 					>
@@ -112,7 +112,7 @@ const PurePreviewMessage = ({
 											<div
 												data-testid="message-content"
 												className={cn("flex flex-col gap-4", {
-													"bg-primary text-primary-foreground px-3 py-2 rounded-xl":
+													"bg-primary text-black px-3 py-2 rounded-xl":
 														message.role === "user",
 												})}
 											>

@@ -93,7 +93,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, className }) => 
 						className={cn(
 							"mt-2 px-2 py-1 text-xs font-medium transition-all duration-300",
 							isUser
-								? "text-gray-500 group-hover:text-gray-400"
+								? " text-gray-500 group-hover:text-gray-400"
 								: "text-gray-500 group-hover:text-gray-600"
 						)}
 					>
