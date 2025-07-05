@@ -21,6 +21,7 @@ const PurePreviewMessage = ({
 	setMessages,
 	regenerate,
 	requiresScrollPadding,
+	addToolResult,
 }: {
 	chatId: string;
 	message: ChatMessage;
@@ -28,6 +29,7 @@ const PurePreviewMessage = ({
 	setMessages: UseChatHelpers<ChatMessage>["setMessages"];
 	regenerate: UseChatHelpers<ChatMessage>["regenerate"];
 	requiresScrollPadding: boolean;
+	addToolResult: (args: { toolCallId: string; output: string }) => void;
 }) => {
 	const [mode, setMode] = useState<"view">("view");
 	const { agent, isReady } = useAgent();
@@ -110,6 +112,7 @@ const PurePreviewMessage = ({
 													toolName={toolName}
 													args={part.input}
 													action={action}
+													addToolResult={addToolResult}
 												/>
 											</div>
 										);

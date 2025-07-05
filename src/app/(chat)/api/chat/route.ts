@@ -103,6 +103,18 @@ export async function POST(request: Request) {
 		const messagesFromDb = await getMessagesByChatId({ id });
 		const uiMessages = [...convertToUIMessages(messagesFromDb), message];
 
+		// Filter out UI-only tool parts that have "input-available" state
+		const filteredMessages = uiMessages.map(msg => ({
+			...msg,
+			parts: msg.parts?.filter(part => {
+				// Remove tool parts with input-available state (these are UI-only)
+				if (part.type.startsWith('tool-') && 'state' in part && part.state === 'input-available') {
+					return false;
+				}
+				return true;
+			}) || []
+		}));
+
 		await saveMessages({
 			messages: [
 				{
@@ -126,7 +138,7 @@ export async function POST(request: Request) {
 				const result = streamText({
 					model: myProvider.languageModel(selectedChatModel),
 					system: systemPrompt({ userAddress }),
-					messages: convertToModelMessages(uiMessages),
+					messages: convertToModelMessages(filteredMessages),
 					stopWhen: stepCountIs(5),
 					experimental_activeTools:
 						selectedChatModel === "chat-model-reasoning"

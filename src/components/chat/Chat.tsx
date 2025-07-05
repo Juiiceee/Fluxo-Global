@@ -49,39 +49,47 @@ export function Chat({
 	const [hasAppendedQuery, setHasAppendedQuery] = useState(false);
 	const [sidebarOpen, setSidebarOpen] = useState(true);
 	const isArtifactVisible = useArtifactSelector((state) => state.isVisible);
-	const { messages, setMessages, sendMessage, status, stop, regenerate, resumeStream } =
-		useChat<ChatMessage>({
-			id,
-			messages: initialMessages,
-			experimental_throttle: 100,
-			generateId: generateUUID,
-			transport: new DefaultChatTransport({
-				api: "/api/chat",
-				fetch: fetchWithErrorHandlers,
-				prepareSendMessagesRequest({ messages, id, body }) {
-					return {
-						body: {
-							id,
-							message: messages.at(-1)! as any,
-							selectedChatModel: initialChatModel as "chat-model" | "chat-model-reasoning",
-							userAddress: address,
-							...body,
-						} satisfies PostRequestBody,
-					};
-				},
-			}),
-			onData: (dataPart) => {
-				setDataStream((ds) => (ds ? [...ds, dataPart] : []));
+	const {
+		messages,
+		setMessages,
+		sendMessage,
+		status,
+		stop,
+		regenerate,
+		resumeStream,
+		addToolResult,
+	} = useChat<ChatMessage>({
+		id,
+		messages: initialMessages,
+		experimental_throttle: 100,
+		generateId: generateUUID,
+		transport: new DefaultChatTransport({
+			api: "/api/chat",
+			fetch: fetchWithErrorHandlers,
+			prepareSendMessagesRequest({ messages, id, body }) {
+				return {
+					body: {
+						id,
+						message: messages.at(-1)! as any,
+						selectedChatModel: initialChatModel as "chat-model" | "chat-model-reasoning",
+						userAddress: address,
+						...body,
+					} satisfies PostRequestBody,
+				};
 			},
-			onFinish: () => {
-				queryClient.invalidateQueries({ queryKey: ["chat-history"] });
-			},
-			onError: (error) => {
-				if (error instanceof ChatSDKError) {
-					toast.error(error.message);
-				}
-			},
-		});
+		}),
+		onData: (dataPart) => {
+			setDataStream((ds) => (ds ? [...ds, dataPart] : []));
+		},
+		onFinish: () => {
+			queryClient.invalidateQueries({ queryKey: ["chat-history"] });
+		},
+		onError: (error) => {
+			if (error instanceof ChatSDKError) {
+				toast.error(error.message);
+			}
+		},
+	});
 
 	useEffect(() => {
 		if (query && !hasAppendedQuery) {
@@ -206,14 +214,15 @@ export function Chat({
 
 					{/* Chat Content */}
 					<div className="flex-1 flex flex-col min-h-0">
-					<Messages
-          chatId={id}
-          status={status}
-          messages={messages}
-          setMessages={setMessages}
-          regenerate={regenerate}
-          isArtifactVisible={isArtifactVisible}
-        />
+						<Messages
+							chatId={id}
+							status={status}
+							messages={messages}
+							setMessages={setMessages}
+							regenerate={regenerate}
+							isArtifactVisible={isArtifactVisible}
+							addToolResult={addToolResult}
+						/>
 						<ChatInput onSendMessage={handleSendMessage} isLoading={false} />
 					</div>
 				</div>

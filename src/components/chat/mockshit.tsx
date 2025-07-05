@@ -10,7 +10,7 @@ interface GenericToolConfirmationProps {
   toolName: string;
   args: Record<string, any>;
   action: Action;
-  addToolResult?: (args: { toolCallId: string; result: string }) => void;
+  addToolResult: (args: { toolCallId: string; output: string }) => void;
   className?: string;
 }
 
@@ -29,20 +29,19 @@ export function GenericToolConfirmation({
   const [error, setError] = useState<string | null>(null);
 
   const handleConfirm = useCallback(async () => {
+    console.log("handleConfirm", agent, addToolResult, args, action, toolCallId);
     if (!agent || !addToolResult) return;
 
     setState('processing');
     setError(null);
 
     try {
+      console.log("executeAction", action, agent, args);
       const result = await executeAction(action, agent, args);
       
       addToolResult({
         toolCallId,
-        result: JSON.stringify({
-          ...result,
-          success: true,
-        }),
+        output: JSON.stringify(result),
       });
 
       setState('completed');
@@ -53,7 +52,7 @@ export function GenericToolConfirmation({
       
       addToolResult({
         toolCallId,
-        result: JSON.stringify({
+        output: JSON.stringify({
           success: false,
           error: errorMessage,
         }),
@@ -71,7 +70,7 @@ export function GenericToolConfirmation({
     
     addToolResult({
       toolCallId,
-      result: JSON.stringify({
+      output: JSON.stringify({
         success: false,
         error: "User rejected the operation",
       }),
