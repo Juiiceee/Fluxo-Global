@@ -17,7 +17,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
 				appearance: {
 					theme: "dark",
 					accentColor: "#676FFF",
-					logo: "https://your-logo-url.com/logo.svg",
+					logo: "/privyFluxo.png",
+					landingHeader: "Fluxo",
 				},
 				// Create embedded wallets for users who don't have a wallet
 				embeddedWallets: {
