@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { AlertTriangle, CheckCircle, XCircle, Loader2, Eye, Download, Copy } from "lucide-react";
+import { AlertTriangle, CheckCircle, XCircle, Loader2, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
 	Dialog,
@@ -12,7 +12,6 @@ import {
 	DialogTitle,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import { toast } from "sonner";
 
 interface ToolConfirmationProps {
 	/** Whether the confirmation dialog is open */
@@ -45,36 +44,17 @@ interface DetailModalProps {
 	title: string;
 	data: any;
 	args: Record<string, any>;
+	onConfirm?: () => void;
+	onCancel?: () => void;
 }
 
-function DetailModal({ open, onOpenChange, title, data, args }: DetailModalProps) {
+function DetailModal({ open, onOpenChange, title, data, args, onConfirm, onCancel }: DetailModalProps) {
 	const [activeTab, setActiveTab] = React.useState<'formatted' | 'raw'>('formatted');
 	
 	const hasResults = data && Object.keys(data).length > 0;
 	const hasArgs = args && Object.keys(args).length > 0;
 
-	const copyToClipboard = async (text: string) => {
-		try {
-			await navigator.clipboard.writeText(text);
-			toast.success('Copied to clipboard');
-		} catch (err) {
-			toast.error('Failed to copy');
-		}
-	};
 
-	const downloadData = () => {
-		const dataToExport = hasResults 
-			? { result: data, arguments: args }
-			: { arguments: args };
-		const dataStr = JSON.stringify(dataToExport, null, 2);
-		const blob = new Blob([dataStr], { type: 'application/json' });
-		const url = URL.createObjectURL(blob);
-		const a = document.createElement('a');
-		a.href = url;
-		a.download = `${title.replace(/\s+/g, '-').toLowerCase()}-${hasResults ? 'result' : 'params'}.json`;
-		a.click();
-		URL.revokeObjectURL(url);
-	};
 
 	const formatData = (obj: any) => {
 		if (typeof obj !== 'object' || obj === null) {
@@ -117,7 +97,7 @@ function DetailModal({ open, onOpenChange, title, data, args }: DetailModalProps
 							variant={activeTab === 'formatted' ? 'default' : 'ghost'}
 							size="sm"
 							onClick={() => setActiveTab('formatted')}
-							className="flex-1"
+							className="flex-1 text-black"
 						>
 							Formatted
 						</Button>
@@ -125,7 +105,7 @@ function DetailModal({ open, onOpenChange, title, data, args }: DetailModalProps
 							variant={activeTab === 'raw' ? 'default' : 'ghost'}
 							size="sm"
 							onClick={() => setActiveTab('raw')}
-							className="flex-1"
+							className="flex-1 text-black"
 						>
 							Raw JSON
 						</Button>
@@ -184,22 +164,21 @@ function DetailModal({ open, onOpenChange, title, data, args }: DetailModalProps
 					<Button
 						variant="outline"
 						onClick={() => {
-							const dataToExport = hasResults 
-								? { result: data, arguments: args }
-								: { arguments: args };
-							copyToClipboard(JSON.stringify(dataToExport, null, 2));
+							onCancel?.();
+							onOpenChange(false);
 						}}
-						className="gap-2 bg-gray-900 text-white border-gray-900 hover:bg-gray-800 hover:border-gray-800 dark:bg-gray-100 dark:text-gray-900 dark:border-gray-100 dark:hover:bg-gray-200 dark:hover:border-gray-200"
+						className="bg-gray-900 text-white border-gray-900 hover:bg-gray-800 hover:border-gray-800 dark:bg-gray-100 dark:text-gray-900 dark:border-gray-100 dark:hover:bg-gray-200 dark:hover:border-gray-200"
 					>
-						<Copy className="w-4 h-4" />
-						Copy
+						Cancel
 					</Button>
 					<Button 
-						onClick={downloadData} 
-						className="gap-2 bg-blue-500 hover:bg-blue-600 text-white border-blue-500 hover:border-blue-600"
+						onClick={() => {
+							onConfirm?.();
+							onOpenChange(false);
+						}}
+						className="bg-blue-500 hover:bg-blue-600 text-white border-blue-500 hover:border-blue-600"
 					>
-						<Download className="w-4 h-4" />
-						Download
+						Confirm
 					</Button>
 				</DialogFooter>
 			</DialogContent>
@@ -452,6 +431,8 @@ export function ToolConfirmation({
 				title={title}
 				data={result}
 				args={args}
+				onConfirm={handleConfirm}
+				onCancel={handleCancel}
 			/>
 		</>
 	);
