@@ -21,7 +21,7 @@ export default function () {
 							size="lg"
 							className="bg-black text-white hover:bg-gray-800 transition-all duration-300 px-8 py-3"
 						>
-							<Link href="/agent">Start Chatting</Link>
+							<Link href="/chat">Start Chatting</Link>
 						</Button>
 					</div>
 				</div>
