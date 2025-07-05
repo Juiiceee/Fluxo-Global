@@ -7,7 +7,7 @@ import { toast } from "sonner";
 
 export function ConnectButton() {
 	const { ready, authenticated, login, logout } = usePrivy();
-	const { address, isConnected } = useAccount();
+	const { address } = useAccount();
 	const [isHovered, setIsHovered] = useState(false);
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 	const formatAddress = (addr: string) => {
