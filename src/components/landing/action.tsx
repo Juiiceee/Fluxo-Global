@@ -26,7 +26,7 @@ export default function Action() {
 					onClick={() => scrollToSection("section0")}
 					variant="ghost"
 					size="lg"
-					className="text-gray-400 hover:text-black transition-colors duration-300"
+					className="text-gray-400 hover:text-white transition-colors duration-300"
 				>
 					<ChevronUp className="animate-bounce" size={32} />
 				</Button>

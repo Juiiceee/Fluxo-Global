@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import MessageBubble from "./MessageBubble";
 import { cn } from "@/components/utils";
 import { Message } from "@/types/chat";
@@ -14,6 +13,7 @@ interface ChatAreaProps {
 
 const ChatArea: React.FC<ChatAreaProps> = ({ messages, isLoading = false, className }) => {
 	const messagesEndRef = useRef<HTMLDivElement>(null);
+	const scrollContainerRef = useRef<HTMLDivElement>(null);
 
 	const scrollToBottom = () => {
 		messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -24,11 +24,16 @@ const ChatArea: React.FC<ChatAreaProps> = ({ messages, isLoading = false, classN
 	}, [messages]);
 
 	return (
-		<div className={cn("flex-1 flex flex-col relative", className)}>
+		<div className={cn("flex-1 flex flex-col relative min-h-0", className)}>
 			{/* Subtle top gradient */}
 			<div className="absolute top-0 left-0 right-0 h-6 bg-gradient-to-b from-gray-50/50 to-transparent pointer-events-none z-10"></div>
 
-			<ScrollArea className="flex-1 px-6 py-8">
+			{/* Scrollable container */}
+			<div
+				ref={scrollContainerRef}
+				className="flex-1 overflow-y-auto px-6 py-8"
+				style={{ height: "100%" }}
+			>
 				<div className="max-w-4xl mx-auto">
 					{messages.length === 0 ? (
 						<div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
@@ -134,7 +139,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({ messages, isLoading = false, classN
 
 					<div ref={messagesEndRef} />
 				</div>
-			</ScrollArea>
+			</div>
 
 			{/* Subtle bottom gradient */}
 			<div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-gray-50/50 to-transparent pointer-events-none z-10"></div>

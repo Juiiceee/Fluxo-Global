@@ -41,7 +41,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, isLoading = false,
 
 		if (textareaRef.current) {
 			textareaRef.current.style.height = "auto";
-			textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 120)}px`;
+			textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 56)}px`;
 		}
 	};
 
@@ -63,7 +63,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, isLoading = false,
 						)}
 					>
 						{/* Input area */}
-						<div className="flex items-end p-4 space-x-4">
+						<div className="flex items-end px-4 py-3 space-x-4">
 							<div className="flex-1 relative">
 								<Textarea
 									ref={textareaRef}
@@ -73,17 +73,10 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, isLoading = false,
 									onFocus={() => setIsFocused(true)}
 									onBlur={() => setIsFocused(false)}
 									placeholder="Type your message..."
-									className="min-h-[52px] max-h-[120px] resize-none border-0 bg-transparent focus:ring-0 focus:outline-none placeholder:text-gray-500 text-gray-900 px-0 py-0"
+									className="min-h-[36px] max-h-[56px] resize-none border-0 bg-transparent focus:ring-0 focus:outline-none placeholder:text-gray-400 text-gray-900 px-0 py-1 transition-all duration-200 placeholder:transition-colors placeholder:duration-300 focus:placeholder:text-gray-300"
 									rows={1}
 									disabled={isLoading}
 								/>
-
-								{/* Floating placeholder enhancement */}
-								{!inputValue && !isFocused && (
-									<div className="absolute inset-0 flex items-center pointer-events-none">
-										<span className="text-gray-400 text-sm font-medium">✨ Ask me anything...</span>
-									</div>
-								)}
 							</div>
 
 							{/* Premium Send Button */}
@@ -91,21 +84,21 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, isLoading = false,
 								type="submit"
 								disabled={!inputValue.trim() || isLoading}
 								className={cn(
-									"relative px-6 py-3 h-12 rounded-2xl font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed",
+									"relative px-5 py-2 h-10 rounded-2xl font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed",
 									"bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 hover:from-gray-800 hover:via-gray-700 hover:to-gray-800",
 									"text-white shadow-lg hover:shadow-xl active:scale-95",
 									"disabled:hover:from-gray-900 disabled:hover:via-gray-800 disabled:hover:to-gray-900 disabled:active:scale-100"
 								)}
 							>
 								{isLoading ? (
-									<div className="flex items-center space-x-2">
-										<div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-										<span className="text-sm">Sending</span>
+									<div className="flex items-center space-x-1.5">
+										<div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+										<span className="text-xs font-medium">Sending</span>
 									</div>
 								) : (
-									<div className="flex items-center space-x-2">
+									<div className="flex items-center space-x-1.5">
 										<svg
-											className="w-5 h-5 transform transition-transform duration-200 group-hover:translate-x-0.5"
+											className="w-4 h-4 transform transition-transform duration-200 group-hover:translate-x-0.5"
 											fill="none"
 											stroke="currentColor"
 											viewBox="0 0 24 24"
@@ -117,7 +110,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, isLoading = false,
 												d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
 											/>
 										</svg>
-										<span className="text-sm font-medium">Send</span>
+										<span className="text-xs font-medium">Send</span>
 									</div>
 								)}
 							</Button>
@@ -128,26 +121,21 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, isLoading = false,
 					</div>
 				</form>
 
-				{/* Enhanced Footer */}
-				<div className="mt-4 flex items-center justify-between text-xs text-gray-500">
-					<div className="flex items-center space-x-4">
-						<span className="flex items-center space-x-1">
-							<kbd className="px-2 py-1 bg-gradient-to-r from-gray-100 to-gray-50 border border-gray-200 rounded font-medium">
-								Enter
+				{/* Minimal Footer */}
+				<div className="mt-3 flex items-center justify-between">
+					<div className="flex items-center space-x-6">
+						<div className="flex items-center space-x-1.5 text-xs text-gray-400 hover:text-gray-600 transition-colors">
+							<kbd className="px-1.5 py-0.5 bg-gray-50/80 text-gray-600 rounded text-[10px] font-mono border border-gray-200/50 shadow-sm">
+								↵
 							</kbd>
-							<span>to send</span>
-						</span>
-						<span className="flex items-center space-x-1">
-							<kbd className="px-2 py-1 bg-gradient-to-r from-gray-100 to-gray-50 border border-gray-200 rounded font-medium">
-								Shift + Enter
+							<span className="font-medium">send</span>
+						</div>
+						<div className="flex items-center space-x-1.5 text-xs text-gray-400 hover:text-gray-600 transition-colors">
+							<kbd className="px-1.5 py-0.5 bg-gray-50/80 text-gray-600 rounded text-[10px] font-mono border border-gray-200/50 shadow-sm">
+								⇧ ↵
 							</kbd>
-							<span>new line</span>
-						</span>
-					</div>
-
-					<div className="flex items-center space-x-1">
-						<div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-						<span className="font-medium">AI Online</span>
+							<span className="font-medium">new line</span>
+						</div>
 					</div>
 				</div>
 			</div>

@@ -58,21 +58,14 @@ export default function Hero() {
 				>
 					<Link href="/chat">Try Chat</Link>
 				</Button>
-				<Button
-					asChild
-					size="lg"
-					className="bg-black text-white hover:bg-gray-800 transition-all duration-300 px-8 py-3 text-base font-medium"
-				>
-					<Link href="/configure">Explore Tools</Link>
-				</Button>
 			</div>
 
 			<div className="flex justify-center mt-20">
 				<Button
-					onClick={() => scrollToSection("section1")}
+					onClick={() => scrollToSection("section5")}
 					variant="ghost"
 					size="lg"
-					className="text-gray-400 hover:text-black transition-colors duration-300"
+					className="text-gray-400 hover:text-white transition-colors duration-300"
 				>
 					<ChevronDown className="animate-bounce" size={24} />
 				</Button>

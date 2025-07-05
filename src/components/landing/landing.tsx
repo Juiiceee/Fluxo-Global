@@ -11,13 +11,16 @@ export default function Landing() {
 			</section>
 
 			<main className="flex-1">
-				<section className="relative py-20 md:py-32 lg:py-40 bg-white" id="section1">
+				<section
+					className="relative pt-4 pb-16 md:pt-8 md:pb-28 lg:pt-12 lg:pb-36 bg-white"
+					id="section1"
+				>
 					<Hero />
 				</section>
 
 				{/* Final CTA */}
 				<section
-					className="py-28 md:py-40 text-center bg-gradient-to-b from-white to-gray-50"
+					className="pt-12 pb-28 md:pt-16 md:pb-40 text-center bg-gradient-to-b from-white to-gray-50"
 					id="section5"
 				>
 					<Action />

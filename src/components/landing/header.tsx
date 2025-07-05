@@ -11,7 +11,7 @@ export default function Header() {
 				</div>
 
 				{/* Connect button on right */}
-				<ConnectButton />
+				<ConnectButton height="30px" />
 			</div>
 
 			{/* Navigation vraiment centrée à l'écran */}
@@ -21,12 +21,6 @@ export default function Header() {
 					className="px-4 py-2 hover:text-black transition-colors duration-300 font-medium"
 				>
 					Chat
-				</Link>
-				<Link
-					href="/configure"
-					className="px-4 py-2 hover:text-black transition-colors duration-300 font-medium"
-				>
-					Tools
 				</Link>
 			</nav>
 		</header>
