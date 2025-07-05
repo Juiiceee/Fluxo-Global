@@ -5,18 +5,18 @@ import { CheckCircle2 } from "lucide-react";
 import Image from "next/image";
 
 // B2B Tool Template Card
-const B2BToolCard = () => (
+	const B2BToolCard = () => (
 	<div className="w-full max-w-md mx-auto mt-6 rounded-2xl bg-black/60 border border-white/10 overflow-hidden">
-		{/* Chat conversation header */}
-		<div className="bg-black/80 p-3 border-b border-white/10 flex items-center justify-between">
-			<div className="flex items-center">
-				<div className="w-6 h-6 mr-2">
+			{/* Chat conversation header */}
+			<div className="bg-black/80 p-3 border-b border-white/10 flex items-center justify-between">
+					<div className="flex items-center">
+					<div className="w-6 h-6 mr-2">
 					<Image
 						src="/borderFluxo.png"
 						alt="Fluxo"
-						width={24}
-						height={24}
-						className="w-full h-full"
+							width={24}
+							height={24}
+							className="w-full h-full"
 					/>
 				</div>
 				<span className="text-sm text-zinc-300">Fluxo Agent</span>
@@ -47,31 +47,31 @@ const B2BToolCard = () => (
 								<Image
 									src="/borderFluxo.png"
 									alt="Fluxo"
-									width={16}
-									height={16}
-									className="w-full h-full"
-								/>
+										width={16}
+										height={16}
+											className="w-full h-full"
+									/>
 							</div>
 							<span className="ml-2 text-xs font-medium">[Your Protocol]</span>
-						</div>
-						<div className="text-xs text-zinc-400">
-							Swapping 2 ETH for ~4158 USDC
-							<div className="h-1 w-full bg-zinc-800 rounded-full mt-1 overflow-hidden">
-								<div className="h-full w-3/4 bg-amber-400/70 rounded-full"></div>
 							</div>
+							<div className="text-xs text-zinc-400">
+								Swapping 2 ETH for ~4158 USDC
+								<div className="h-1 w-full bg-zinc-800 rounded-full mt-1 overflow-hidden">
+								<div className="h-full w-3/4 bg-amber-400/70 rounded-full"></div>
+																	</div>
+						</div>
+						</div>
 						</div>
 					</div>
 				</div>
-			</div>
 		</div>
-	</div>
-);
+	);
 
 export default function BusinessProtocolSection() {
 	return (
 		<div className="container max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 			{/* B2B Showcase */}
-			<div className="bg-black/30 border border-white/10 rounded-xl p-6 md:p-8">
+			<div className="bg-black/80 border border-white/10 rounded-xl p-6 md:p-8">
 				<div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
 					<div>
 						<h3 className="text-xl md:text-2xl font-semibold mb-4">For Businesses & Protocols</h3>
@@ -100,8 +100,6 @@ export default function BusinessProtocolSection() {
 								</li>
 							</ul>
 						</div>
-
-						<Button>Schedule a Demo</Button>
 					</div>
 
 					<div className="flex items-center justify-center">
