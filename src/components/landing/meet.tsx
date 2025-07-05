@@ -28,7 +28,7 @@ export default function () {
 				<div className="w-full lg:w-1/3 flex justify-center">
 					<div className="relative w-4/5 sm:w-3/5 md:w-2/3 lg:w-full max-w-[280px] overflow-hidden rounded-2xl border border-gray-200 shadow-lg">
 						<Image
-							src="/tool-logos/dyno.png"
+							src="/borderFluxo.png"
 							alt="AI Agent in Action"
 							width={300}
 							height={500}

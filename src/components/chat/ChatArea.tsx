@@ -47,7 +47,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({ messages, isLoading = false, classN
 									Welcome to Flexo Chat
 								</h2>
 								<p className="text-gray-600 leading-relaxed">
-								You can ask me to swap tokens, check your balance, or do anything you want.
+									You can ask me to swap tokens, check your balance, or do anything you want.
 								</p>
 
 								<div className="flex flex-wrap gap-2 justify-center pt-4">
