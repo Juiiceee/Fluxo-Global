@@ -42,7 +42,7 @@ export function getStreamContext() {
 			});
 		} catch (error: any) {
 			if (error.message.includes("REDIS_URL")) {
-				console.log(" > Resumable streams are disabled due to missing REDIS_URL");
+				console.error(" > Resumable streams are disabled due to missing REDIS_URL");
 			} else {
 				console.error(error);
 			}
@@ -131,8 +131,6 @@ export async function POST(request: Request) {
 		const streamId = generateUUID();
 		await createStreamId({ streamId, chatId: id });
 
-		console.log(JSON.stringify(uiMessages, null, 2));
-
 		const stream = createUIMessageStream({
 			execute: ({ writer: dataStream }) => {
 				const result = streamText({
@@ -174,7 +172,7 @@ export async function POST(request: Request) {
 				});
 			},
 			onError: (error) => {
-				console.log(error);
+				console.error(error);
 				return "Oops, an error occurred!";
 			},
 		});

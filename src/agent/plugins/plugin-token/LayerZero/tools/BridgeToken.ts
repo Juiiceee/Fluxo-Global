@@ -81,22 +81,31 @@ const ERC20_ABI = [
 	},
 ] as const;
 
+const mapChainToEid = new Map<string, number>([
+	["ethereum", 30101],
+	["arbitrum", 30110],
+	["base", 30184],
+	["abstract", 30324],
+	["optimism", 30111],
+]);
+
 /**
  * Transfer ERC20 tokens to a recipient address
  * @param agent EvmAgentKit instance
  * @param params ERC20 transfer parameters
- * @returns Transaction signature
+ * @returns Transaction hash
  * @throws {Error} If the transfer fails
  */
 export async function bridgeWithOFT(agent: EvmAgentKit, params: LzTransferRequestTool) {
 	try {
 		// Validate addresses
-		if (!params.tokenAddress.startsWith("0x") || params.tokenAddress.length !== 42) {
+		if (!params.tokenAddress.startsWith("0x") || params.tokenAddress.length !== 42)
 			throw new Error("Invalid token address format");
-		}
-		if (!agent.wallet.account) {
-			throw new Error("Wallet account not found");
-		}
+
+		if (!agent.wallet.account) throw new Error("Wallet account not found");
+
+		const eid = mapChainToEid.get(params.toChain.toLowerCase());
+		if (!eid) throw new Error("Invalid chain");
 
 		const decimals = await agent.connection.readContract({
 			account: agent.wallet.account,
@@ -116,11 +125,8 @@ export async function bridgeWithOFT(agent: EvmAgentKit, params: LzTransferReques
 			args: [agent.wallet.account.address],
 		});
 
-		console.log(`Token balance: ${tokenBalance}, Required amount: ${amountLD}`);
-
-		if (tokenBalance < amountLD) {
+		if (tokenBalance < amountLD)
 			throw new Error(`Insufficient token balance. Have: ${tokenBalance}, Need: ${amountLD}`);
-		}
 
 		// Check allowance (if OFT contract needs approval to spend tokens)
 		const allowance = await agent.connection.readContract({
@@ -131,7 +137,6 @@ export async function bridgeWithOFT(agent: EvmAgentKit, params: LzTransferReques
 			args: [agent.wallet.account.address, params.synthetic as `0x${string}`],
 		});
 
-		console.log(`Allowance: ${allowance}, Required amount: ${amountLD}`);
 
 		if (allowance < amountLD) {
 			// Request approval transaction
@@ -151,14 +156,12 @@ export async function bridgeWithOFT(agent: EvmAgentKit, params: LzTransferReques
 			address: agent.wallet.account.address,
 		});
 
-		console.log(`Native balance: ${nativeBalance}`);
-
 		const options = Options.newOptions();
 		if (params.addGasQty !== "0")
-			options.addExecutorLzReceiveOption(1000000, +params.addGasQty / 1e18);
+			options.addExecutorLzReceiveOption(1000000, +params.addGasQty * 1e18);
 
 		const sendParams = {
-			dstEid: 30110,
+			dstEid: eid,
 			to: `0x${"0".repeat(24)}${agent.wallet.account.address.slice(2)}` as `0x${string}`,
 			amountLD: amountLD,
 			minAmountLD: amountLD,
@@ -176,33 +179,11 @@ export async function bridgeWithOFT(agent: EvmAgentKit, params: LzTransferReques
 			args: [sendParams, false],
 		});
 
-		console.log(`Required native fee: ${fees.nativeFee}`);
-
 		if (nativeBalance < fees.nativeFee) {
 			throw new Error(
 				`Insufficient native balance for fees. Have: ${nativeBalance}, Need: ${fees.nativeFee}`
 			);
 		}
-
-		console.log("Contract call parameters:");
-		console.log("- Contract address:", params.synthetic);
-		console.log(
-			"- Send params:",
-			JSON.stringify(
-				sendParams,
-				(key, value) => (typeof value === "bigint" ? value.toString() : value),
-				2
-			)
-		);
-		console.log(
-			"- Fees:",
-			JSON.stringify(
-				fees,
-				(key, value) => (typeof value === "bigint" ? value.toString() : value),
-				2
-			)
-		);
-		console.log("- Refund address:", agent.wallet.account.address);
 
 		const { request } = await agent.connection.simulateContract({
 			account: agent.wallet.account,
@@ -215,7 +196,6 @@ export async function bridgeWithOFT(agent: EvmAgentKit, params: LzTransferReques
 
 		return await agent.wallet.writeContract(request);
 	} catch (error: unknown) {
-		console.error("Error in ERC20 transfer:", error);
 		throw error;
 	}
 }
