@@ -19,7 +19,7 @@ const BridgeWithLZ: Action = {
 				output: {
 					status: "success",
 					message: "Token bridge completed successfully",
-					signature: "0x1234567890abcdef...",
+					txHash: "0x1234567890abcdef...",
 				},
 				explanation: "Bridge 100 tokens from Ethereum to Arbitrum with 0.01 additional gas",
 			},
@@ -28,7 +28,6 @@ const BridgeWithLZ: Action = {
 	schema: lzTransferSchema,
 	handler: async (agent: EvmAgentKit, input: Record<string, unknown>) => {
 		try {
-			console.log("TransferAction", input);
 			const transferRequest = lzTransferSchema.parse(input);
 
 			const response = await fetch(
@@ -41,22 +40,20 @@ const BridgeWithLZ: Action = {
 				}
 			);
 			const data = await response.json();
-			console.log("data", data);
 			const udst0 = data.USDT0[0].deployments.ethereum.address;
 			const udst = data.USDT0[0].deployments.ethereum.innerTokenAddress;
-			console.log("udst0", udst0);
 			transferRequest.tokenAddress = udst0;
 			const fullTransferRequest: LzTransferRequestTool = {
 				...transferRequest,
 				tokenAddress: udst,
 				synthetic: udst0,
 			};
-			const signature = await bridgeWithOFT(agent, fullTransferRequest);
+			const txHash = await bridgeWithOFT(agent, fullTransferRequest);
 
 			return {
 				status: "success",
 				message: "ERC20 transfer completed successfully",
-				signature: signature,
+				txHash,
 				to: transferRequest.toChain,
 				tokenAddress: transferRequest.tokenAddress,
 				amount: transferRequest.amount,

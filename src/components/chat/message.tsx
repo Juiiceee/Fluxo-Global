@@ -55,15 +55,12 @@ const PurePreviewMessage = ({
 				data-role={message.role}
 			>
 				<div
-					className={cn(
-						"flex gap-4 w-full",
-						{
-							// Messages utilisateur: alignés à droite avec avatar à droite
-							"ml-auto max-w-2xl w-fit flex-row-reverse": message.role === "user",
-							// Messages assistant: alignés à gauche avec avatar à gauche
-							"": message.role === "assistant",
-						}
-					)}
+					className={cn("flex gap-4 w-full", {
+						// Messages utilisateur: alignés à droite avec avatar à droite
+						"ml-auto max-w-2xl w-fit flex-row-reverse": message.role === "user",
+						// Messages assistant: alignés à gauche avec avatar à gauche
+						"": message.role === "assistant",
+					})}
 				>
 					{/* Avatar pour l'assistant (à gauche) */}
 					{message.role === "assistant" && (
@@ -111,10 +108,17 @@ const PurePreviewMessage = ({
 										<div key={key} className="flex flex-row gap-2 items-start">
 											<div
 												data-testid="message-content"
-												className={cn("flex flex-col gap-4", {
-													"bg-primary text-black px-3 py-2 rounded-xl":
-														message.role === "user",
-												})}
+												className={cn(
+													"flex flex-col gap-4",
+													{
+														"bg-black/22 border border-black/10 text-black px-3 py-2 rounded-xl":
+															message.role === "user",
+													},
+													{
+														"bg-black/90 text-white px-3 py-2 rounded-xl":
+															message.role === "assistant",
+													}
+												)}
 											>
 												<Markdown>{part.text}</Markdown>
 											</div>
@@ -126,17 +130,17 @@ const PurePreviewMessage = ({
 							// Handle any tool confirmation (generic for all tools)
 							if (type.startsWith("tool-")) {
 								const toolName = type.replace("tool-", "");
-								
+
 								// Check if this is a tool call
-								if ('toolCallId' in part && 'input' in part) {
+								if ("toolCallId" in part && "input" in part) {
 									// Find the action from the agent's actions by name
-									const action = agent.actions.find(a => a.name === toolName);
-									
+									const action = agent.actions.find((a) => a.name === toolName);
+
 									if (action) {
 										return (
 											<div key={part.toolCallId} className="skeleton">
-												<GenericToolConfirmation 
-													agent={agent} 
+												<GenericToolConfirmation
+													agent={agent}
 													toolCallId={part.toolCallId}
 													toolName={toolName}
 													args={part.input}
@@ -178,7 +182,7 @@ export const ThinkingMessage = () => {
 		>
 			<div
 				className={cn(
-					"flex gap-4 group-data-[role=user]/message:px-3 w-full group-data-[role=user]/message:w-fit group-data-[role=user]/message:ml-auto group-data-[role=user]/message:max-w-2xl group-data-[role=user]/message:py-2 rounded-xl",
+					"flex  gap-4 group-data-[role=user]/message:px-3 w-full group-data-[role=user]/message:w-fit group-data-[role=user]/message:ml-auto group-data-[role=user]/message:max-w-2xl group-data-[role=user]/message:py-2 rounded-xl",
 					{
 						"group-data-[role=user]/message:bg-muted": true,
 					}

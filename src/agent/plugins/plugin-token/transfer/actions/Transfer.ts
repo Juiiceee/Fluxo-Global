@@ -18,7 +18,7 @@ const TransferAction: Action = {
 				output: {
 					status: "success",
 					message: "ERC20 transfer completed successfully",
-					signature: "0x1234567890abcdef...",
+					txHash: "0x1234567890abcdef...",
 				},
 				explanation: "Transfer 100 tokens to the specified address",
 			},
@@ -27,7 +27,6 @@ const TransferAction: Action = {
 	schema: erc20TransferSchema,
 	handler: async (agent: EvmAgentKit, input: Record<string, unknown>) => {
 		try {
-			console.log("TransferAction", input);
 			const transferRequest = erc20TransferSchema.parse(input);
 			// Check if the recipient address is an ENS name
 			if (transferRequest.to.endsWith(".eth")) {
@@ -41,12 +40,12 @@ const TransferAction: Action = {
 			} else if (!transferRequest.to.match(/^0x[a-fA-F0-9]{40}$/)) {
 				throw new Error("Invalid Ethereum address format");
 			}
-			const signature = await transfer(agent, transferRequest);
+			const txHash = await transfer(agent, transferRequest);
 
 			return {
 				status: "success",
 				message: "ERC20 transfer completed successfully",
-				signature: signature,
+				txHash,
 				to: transferRequest.to,
 				tokenAddress: transferRequest.tokenAddress,
 				amount: transferRequest.amount,

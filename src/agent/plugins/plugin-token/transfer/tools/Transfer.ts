@@ -46,7 +46,7 @@ const ERC20_TRANSFER_ABI = [
  * Transfer ERC20 tokens to a recipient address
  * @param agent EvmAgentKit instance
  * @param params ERC20 transfer parameters
- * @returns Transaction signature
+ * @returns Transaction hash
  * @throws {Error} If the transfer fails
  */
 export async function transfer(agent: EvmAgentKit, params: Erc20TransferRequest) {

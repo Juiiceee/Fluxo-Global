@@ -28,7 +28,6 @@ export function createEvmTools(evmAgentKit: EvmAgentKit, actions: Action[]): Rec
 				description: action.description,
 				inputSchema: action.schema,
 			});
-			console.log(`Successfully created tool: ${action.name}`);
 		} catch (error) {
 			console.error(`Failed to create tool ${action.name}:`, error);
 			console.error("Schema:", action.schema);
