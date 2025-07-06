@@ -8,7 +8,7 @@ import type { ChatMessage } from "@/lib/types";
 import { useDataStream } from "@/components/data-stream-provider";
 import { PencilEditIcon, SparklesIcon } from "@/components/icons";
 import { Markdown } from "../MarkDown";
-import { GenericToolConfirmation } from "./mockshit";
+import { GenericToolConfirmation } from "./ToolConfirm";
 import { useAgent } from "@/hooks/useAgent";
 
 // Type narrowing is handled by TypeScript's control flow analysis

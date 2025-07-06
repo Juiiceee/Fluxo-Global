@@ -2,6 +2,8 @@ import { EvmAgentKit } from "@/agent";
 import { TransferAction } from "./transfer/actions/Transfer";
 import { transfer } from "./transfer/tools/Transfer";
 import { Plugin } from "@/agent/types";
+import { bridgeWithOFT } from "./LayerZero/tools/BridgeToken";
+import { BridgeWithLZ } from "./LayerZero/actions/BridgeToken";
 // Define and export the plugin
 const TokenPlugin = {
 	name: "token",
@@ -9,10 +11,11 @@ const TokenPlugin = {
 	// Combine all tools
 	methods: {
 		transfer,
+		bridgeWithOFT
 	},
 
 	// Combine all actions
-	actions: [TransferAction],
+	actions: [TransferAction, BridgeWithLZ],
 
 	// Initialize function
 	initialize: function (agent: EvmAgentKit): void {

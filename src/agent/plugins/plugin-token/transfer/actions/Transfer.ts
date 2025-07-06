@@ -1,7 +1,7 @@
 import { Action, EvmAgentKit } from "@/agent";
 import { erc20TransferSchema } from "../types";
 import { transfer } from "../tools/Transfer";
-
+import { normalize } from "viem/ens";
 
 const TransferAction: Action = {
 	name: "ERC20_TRANSFER",
@@ -27,8 +27,20 @@ const TransferAction: Action = {
 	schema: erc20TransferSchema,
 	handler: async (agent: EvmAgentKit, input: Record<string, unknown>) => {
 		try {
-			console.log("TransferAction", input)
+			console.log("TransferAction", input);
 			const transferRequest = erc20TransferSchema.parse(input);
+			// Check if the recipient address is an ENS name
+			if (transferRequest.to.endsWith(".eth")) {
+				const address = await agent.connection.getEnsAddress({
+					name: normalize(transferRequest.to),
+				});
+				if (!address) {
+					throw new Error(`Could not resolve ENS name ${transferRequest.to}`);
+				}
+				transferRequest.to = address;
+			} else if (!transferRequest.to.match(/^0x[a-fA-F0-9]{40}$/)) {
+				throw new Error("Invalid Ethereum address format");
+			}
 			const signature = await transfer(agent, transferRequest);
 
 			return {
@@ -48,4 +60,4 @@ const TransferAction: Action = {
 	},
 };
 
-export {  TransferAction  };
+export { TransferAction };

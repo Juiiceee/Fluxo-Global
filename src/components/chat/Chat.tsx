@@ -67,10 +67,35 @@ export function Chat({
 			api: "/api/chat",
 			fetch: fetchWithErrorHandlers,
 			prepareSendMessagesRequest({ messages, id, body }) {
+				// Only send user messages to the API
+				const lastUserMessage = messages.filter(msg => msg.role === 'user').at(-1);
+				
+				if (!lastUserMessage) {
+					throw new Error('No user message found to send');
+				}
+
+				// Filter parts to only include text and file parts that match the schema
+				const filteredParts = lastUserMessage.parts.filter(part => {
+					if (part.type === 'text') {
+						return true;
+					}
+					if (part.type === 'file' && 'url' in part && 'mediaType' in part && 'name' in part) {
+						return ['image/jpeg', 'image/png'].includes(part.mediaType);
+					}
+					return false;
+				}) as Array<
+					| { type: 'text'; text: string }
+					| { type: 'file'; url: string; mediaType: 'image/jpeg' | 'image/png'; name: string }
+				>;
+
 				return {
 					body: {
 						id,
-						message: messages.at(-1)! as any,
+						message: {
+							id: lastUserMessage.id,
+							role: 'user' as const,
+							parts: filteredParts,
+						},
 						selectedChatModel: initialChatModel as "chat-model" | "chat-model-reasoning",
 						userAddress: address,
 						...body,

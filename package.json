@@ -19,6 +19,7 @@
     "@ai-sdk/react": "2.0.0-beta.6",
     "@ai-sdk/xai": "2.0.0-beta.2",
     "@langchain/core": "^0.3.62",
+    "@layerzerolabs/lz-v2-utilities": "^3.0.110",
     "@prisma/client": "^6.11.1",
     "@privy-io/react-auth": "^2.17.3",
     "@privy-io/server-auth": "^1.28.2",
